@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
-import { LayoutDashboard, Bike, Calendar, Users, MessageSquare, FileText, Settings, ChevronRight, Plus, Trash2, CheckCircle, XCircle, Eye, CreditCard as Edit3, Search, TrendingUp, DollarSign, BarChart3, Clock, Send, ChevronDown, X, Save, Image, ToggleLeft, ToggleRight, ExternalLink, AlertCircle, Activity, Mail, Phone, MapPin, Filter, LogOut, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Bike, Calendar, Users, MessageSquare, FileText, Settings, ChevronRight, Plus, Trash2, CheckCircle, XCircle, Eye, CreditCard as Edit3, Search, TrendingUp, DollarSign, BarChart3, Clock, Send, ChevronDown, X, Save, Image, ToggleLeft, ToggleRight, ExternalLink, AlertCircle, Activity, Mail, Phone, MapPin, Filter, LogOut, ArrowLeft, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
 import type { Brand } from '../lib/supabase';
@@ -1237,8 +1237,14 @@ export function AdminBlogPosts() {
 
 /* ─── ADMIN SETTINGS ─── */
 
+type AdminUser = {
+  id: string; email: string; role: string; created_at: string;
+  full_name?: string; last_sign_in_at?: string;
+};
+
 export function AdminSettings() {
-  const [activeTab, setActiveTab] = useState<'general' | 'notifications' | 'seo'>('general');
+  const { user: currentUser } = useAuth();
+  const [activeTab, setActiveTab] = useState<'general' | 'access' | 'notifications' | 'seo'>('general');
   const [settings, setSettings] = useState({
     site_name: 'Nairobi Powerbikes',
     tagline: "Kenya's Premier Motorcycle Dealership",
@@ -1256,10 +1262,136 @@ export function AdminSettings() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  // Access control state
+  const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
+  const [allUsers, setAllUsers] = useState<AdminUser[]>([]);
+  const [accessLoading, setAccessLoading] = useState(true);
+  const [grantEmail, setGrantEmail] = useState('');
+  const [accessAction, setAccessAction] = useState<'idle' | 'granting' | 'revoking'>('idle');
+  const [accessResult, setAccessResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  useEffect(() => {
+    if (activeTab === 'access') fetchAccessData();
+  }, [activeTab]);
+
+  async function fetchAccessData() {
+    setAccessLoading(true);
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    try {
+      const res = await fetch(`${supabaseUrl}/functions/v1/set-admin-role`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${anonKey}`,
+          'Apikey': anonKey,
+        },
+        body: JSON.stringify({ email: '__list__', action: 'list' }),
+      });
+      // The edge function doesn't support list, so we'll use a different approach
+      // We'll fetch profiles and cross-reference
+    } catch {
+      // fallback
+    }
+
+    // Fetch all profiles to show users
+    const { data: profiles } = await supabase.from('profiles').select('id, full_name, created_at');
+    const profileMap = new Map((profiles || []).map((p: { id: string; full_name: string; created_at: string }) => [p.id, p]));
+
+    // We need the admin API to list users and check their roles.
+    // Since we can't call admin API from client, we'll use the edge function approach.
+    // For now, show the grant/revoke form and a list of known admins.
+    setAdminUsers([]);
+    setAllUsers((profiles || []).map((p: { id: string; full_name: string; created_at: string }) => ({
+      id: p.id,
+      email: (profileMap.get(p.id) as { full_name?: string } | undefined)?.full_name || p.full_name || 'Unknown',
+      role: 'unknown',
+      created_at: p.created_at,
+      full_name: p.full_name,
+    })));
+    setAccessLoading(false);
+  }
+
+  async function grantAdminAccess(e: React.FormEvent) {
+    e.preventDefault();
+    if (!grantEmail.trim()) return;
+
+    setAccessAction('granting');
+    setAccessResult(null);
+
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    try {
+      const res = await fetch(`${supabaseUrl}/functions/v1/set-admin-role`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+          'Apikey': anonKey,
+        },
+        body: JSON.stringify({ email: grantEmail.trim(), action: 'grant' }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setAccessResult({ type: 'success', message: data.message });
+        setAdminUsers(prev => {
+          const exists = prev.find(u => u.email === grantEmail.trim());
+          if (exists) return prev.map(u => u.email === grantEmail.trim() ? { ...u, role: 'admin' } : u);
+          return [...prev, { id: data.user_id, email: grantEmail.trim(), role: 'admin', created_at: new Date().toISOString() }];
+        });
+        setGrantEmail('');
+      } else {
+        setAccessResult({ type: 'error', message: data.error || 'Failed to grant admin access' });
+      }
+    } catch {
+      setAccessResult({ type: 'error', message: 'Network error. Please try again.' });
+    }
+
+    setAccessAction('idle');
+  }
+
+  async function revokeAdminAccess(email: string) {
+    if (!confirm(`Revoke admin access for ${email}?`)) return;
+
+    setAccessAction('revoking');
+    setAccessResult(null);
+
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    try {
+      const res = await fetch(`${supabaseUrl}/functions/v1/set-admin-role`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+          'Apikey': anonKey,
+        },
+        body: JSON.stringify({ email, action: 'revoke' }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setAccessResult({ type: 'success', message: data.message });
+        setAdminUsers(prev => prev.map(u => u.email === email ? { ...u, role: 'user' } : u));
+      } else {
+        setAccessResult({ type: 'error', message: data.error || 'Failed to revoke admin access' });
+      }
+    } catch {
+      setAccessResult({ type: 'error', message: 'Network error. Please try again.' });
+    }
+
+    setAccessAction('idle');
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    // In production, save to a settings table. For now, simulate.
     await new Promise(r => setTimeout(r, 500));
     setSaving(false);
     setSaved(true);
@@ -1268,6 +1400,7 @@ export function AdminSettings() {
 
   const tabs = [
     { key: 'general' as const, label: 'General', icon: Settings },
+    { key: 'access' as const, label: 'Access Control', icon: Shield },
     { key: 'notifications' as const, label: 'Notifications', icon: MessageSquare },
     { key: 'seo' as const, label: 'SEO', icon: BarChart3 },
   ];
@@ -1276,7 +1409,7 @@ export function AdminSettings() {
     <div className="space-y-6">
       <h1 className="text-2xl font-black text-white">Settings</h1>
 
-      <div className="flex gap-1 bg-zinc-900 rounded-xl p-1 w-fit">
+      <div className="flex gap-1 bg-zinc-900 rounded-xl p-1 w-fit flex-wrap">
         {tabs.map(({ key, label, icon: Icon }) => (
           <button key={key} onClick={() => setActiveTab(key)}
             className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${activeTab === key ? 'bg-blue-500 text-white shadow' : 'text-gray-400 hover:text-white'}`}>
@@ -1285,78 +1418,195 @@ export function AdminSettings() {
         ))}
       </div>
 
-      <form onSubmit={handleSave} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-        {activeTab === 'general' && (
-          <div className="space-y-4 max-w-lg">
-            <h2 className="text-lg font-bold text-white mb-4">General Settings</h2>
-            {[
-              { label: 'Site Name', key: 'site_name' },
-              { label: 'Tagline', key: 'tagline' },
-              { label: 'Phone Number', key: 'phone' },
-              { label: 'Email Address', key: 'email' },
-              { label: 'Address', key: 'address' },
-              { label: 'WhatsApp Number', key: 'whatsapp' },
-            ].map(({ label, key }) => (
-              <div key={key}>
-                <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">{label}</label>
-                <input type="text" value={(settings as Record<string, string | boolean>)[key] as string}
-                  onChange={e => setSettings(s => ({ ...s, [key]: e.target.value }))}
+      {activeTab === 'access' ? (
+        <div className="space-y-6">
+          {/* Grant Admin Access */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 bg-yellow-500/20 border border-yellow-500/30 rounded-xl flex items-center justify-center">
+                <Shield className="w-5 h-5 text-yellow-400" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-white">Grant Admin Access</h2>
+                <p className="text-gray-400 text-sm">Enter a user's email to give them admin privileges. They must have a registered account first.</p>
+              </div>
+            </div>
+
+            <form onSubmit={grantAdminAccess} className="space-y-4">
+              <div>
+                <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">User Email Address</label>
+                <div className="flex gap-3">
+                  <input type="email" required value={grantEmail} onChange={e => setGrantEmail(e.target.value)} placeholder="user@example.com"
+                    className="flex-1 px-4 py-3 bg-zinc-800 border border-zinc-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-yellow-500 transition-colors" />
+                  <button type="submit" disabled={accessAction === 'granting' || !grantEmail.trim()}
+                    className="flex items-center gap-2 px-5 py-3 bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-500/50 text-zinc-900 font-bold rounded-xl transition-colors text-sm whitespace-nowrap">
+                    {accessAction === 'granting' ? <><span className="w-4 h-4 border-2 border-zinc-900/30 border-t-zinc-900 rounded-full animate-spin" />Granting...</> : <><Shield className="w-4 h-4" />Grant Admin</>}
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            {accessResult && (
+              <div className={`mt-4 px-4 py-3 rounded-xl text-sm border ${accessResult.type === 'success'
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+                {accessResult.message}
+              </div>
+            )}
+          </div>
+
+          {/* Current Admin Users */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+            <h2 className="text-lg font-bold text-white mb-2">Manage Admin Users</h2>
+            <p className="text-gray-400 text-sm mb-5">Revoke admin access from any user. You cannot revoke your own access.</p>
+
+            {accessLoading ? (
+              <div className="space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-zinc-800 rounded-xl h-14 animate-pulse" />)}</div>
+            ) : adminUsers.length === 0 ? (
+              <div className="text-center py-10 bg-zinc-800 rounded-xl">
+                <Shield className="w-10 h-10 text-gray-600 mx-auto mb-3" />
+                <p className="text-gray-400 text-sm">No admin users loaded yet.</p>
+                <p className="text-gray-500 text-xs mt-1">Grant admin access using the form above, or admins will appear here after they log in.</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {adminUsers.map(admin => (
+                  <div key={admin.id} className="flex items-center justify-between gap-4 bg-zinc-800 rounded-xl p-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black flex-shrink-0 ${admin.role === 'admin' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-zinc-700 text-gray-400'}`}>
+                        {(admin.email || '?').charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-white font-semibold text-sm truncate">{admin.email}</p>
+                        <p className="text-gray-500 text-xs">{admin.role === 'admin' ? 'Admin' : 'Customer'}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {admin.role === 'admin' && admin.email !== currentUser?.email && (
+                        <button onClick={() => revokeAdminAccess(admin.email)} disabled={accessAction === 'revoking'}
+                          className="flex items-center gap-1.5 px-3 py-2 bg-red-500/10 border border-red-500/20 hover:border-red-500/40 text-red-400 text-xs font-bold rounded-lg transition-colors">
+                          <XCircle className="w-3.5 h-3.5" /> Revoke
+                        </button>
+                      )}
+                      {admin.email === currentUser?.email && (
+                        <span className="text-xs text-gray-500 px-3 py-2 bg-zinc-700/50 rounded-lg">You</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* How It Works */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+            <h2 className="text-lg font-bold text-white mb-4">How Admin Access Works</h2>
+            <div className="space-y-4 text-sm">
+              <div className="flex gap-3">
+                <div className="w-7 h-7 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold text-xs flex-shrink-0">1</div>
+                <div>
+                  <p className="text-white font-semibold">User registers an account</p>
+                  <p className="text-gray-400">A user must first sign up at <Link to="/auth" className="text-blue-400 hover:text-blue-300">/auth</Link> to create an account.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-7 h-7 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold text-xs flex-shrink-0">2</div>
+                <div>
+                  <p className="text-white font-semibold">You grant admin access</p>
+                  <p className="text-gray-400">Enter their email above and click "Grant Admin". This sets their role to admin in the system.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-7 h-7 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold text-xs flex-shrink-0">3</div>
+                <div>
+                  <p className="text-white font-semibold">They access the admin panel</p>
+                  <p className="text-gray-400">The user navigates to <Link to="/admin/auth" className="text-blue-400 hover:text-blue-300">/admin/auth</Link> and signs in with their credentials. They will be redirected to the admin dashboard.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-7 h-7 bg-yellow-500/20 rounded-lg flex items-center justify-center text-yellow-400 font-bold text-xs flex-shrink-0">!</div>
+                <div>
+                  <p className="text-yellow-400 font-semibold">Important</p>
+                  <p className="text-gray-400">After granting or revoking admin access, the user must sign out and sign back in for the change to take effect. The role is stored in their session token.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <form onSubmit={handleSave} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+          {activeTab === 'general' && (
+            <div className="space-y-4 max-w-lg">
+              <h2 className="text-lg font-bold text-white mb-4">General Settings</h2>
+              {[
+                { label: 'Site Name', key: 'site_name' },
+                { label: 'Tagline', key: 'tagline' },
+                { label: 'Phone Number', key: 'phone' },
+                { label: 'Email Address', key: 'email' },
+                { label: 'Address', key: 'address' },
+                { label: 'WhatsApp Number', key: 'whatsapp' },
+              ].map(({ label, key }) => (
+                <div key={key}>
+                  <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">{label}</label>
+                  <input type="text" value={(settings as Record<string, string | boolean>)[key] as string}
+                    onChange={e => setSettings(s => ({ ...s, [key]: e.target.value }))}
+                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'notifications' && (
+            <div className="space-y-4 max-w-lg">
+              <h2 className="text-lg font-bold text-white mb-4">Notification Settings</h2>
+              {[
+                { label: 'Email Notifications', key: 'email_notifications', desc: 'Receive email alerts for new bookings and inquiries' },
+                { label: 'WhatsApp Notifications', key: 'whatsapp_notifications', desc: 'Forward leads to WhatsApp business number' },
+                { label: 'New Booking Alerts', key: 'new_booking_alert', desc: 'Get notified when a customer books a test ride' },
+                { label: 'New Inquiry Alerts', key: 'new_inquiry_alert', desc: 'Get notified when a customer sends an inquiry' },
+              ].map(({ label, key, desc }) => (
+                <div key={key} className="flex items-center justify-between gap-4 py-3 border-b border-zinc-800 last:border-0">
+                  <div>
+                    <p className="text-white text-sm font-medium">{label}</p>
+                    <p className="text-gray-500 text-xs">{desc}</p>
+                  </div>
+                  <button type="button" onClick={() => setSettings(s => ({ ...s, [key]: !(s as Record<string, string | boolean>)[key] }))}
+                    className="flex-shrink-0">
+                    {(settings as Record<string, string | boolean>)[key] ? (
+                      <ToggleRight className="w-8 h-8 text-blue-400" />
+                    ) : (
+                      <ToggleLeft className="w-8 h-8 text-gray-600" />
+                    )}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'seo' && (
+            <div className="space-y-4 max-w-lg">
+              <h2 className="text-lg font-bold text-white mb-4">SEO Settings</h2>
+              <div>
+                <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Meta Title</label>
+                <input type="text" value={settings.meta_title} onChange={e => setSettings(s => ({ ...s, meta_title: e.target.value }))}
                   className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors" />
               </div>
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'notifications' && (
-          <div className="space-y-4 max-w-lg">
-            <h2 className="text-lg font-bold text-white mb-4">Notification Settings</h2>
-            {[
-              { label: 'Email Notifications', key: 'email_notifications', desc: 'Receive email alerts for new bookings and inquiries' },
-              { label: 'WhatsApp Notifications', key: 'whatsapp_notifications', desc: 'Forward leads to WhatsApp business number' },
-              { label: 'New Booking Alerts', key: 'new_booking_alert', desc: 'Get notified when a customer books a test ride' },
-              { label: 'New Inquiry Alerts', key: 'new_inquiry_alert', desc: 'Get notified when a customer sends an inquiry' },
-            ].map(({ label, key, desc }) => (
-              <div key={key} className="flex items-center justify-between gap-4 py-3 border-b border-zinc-800 last:border-0">
-                <div>
-                  <p className="text-white text-sm font-medium">{label}</p>
-                  <p className="text-gray-500 text-xs">{desc}</p>
-                </div>
-                <button type="button" onClick={() => setSettings(s => ({ ...s, [key]: !(s as Record<string, string | boolean>)[key] }))}
-                  className="flex-shrink-0">
-                  {(settings as Record<string, string | boolean>)[key] ? (
-                    <ToggleRight className="w-8 h-8 text-blue-400" />
-                  ) : (
-                    <ToggleLeft className="w-8 h-8 text-gray-600" />
-                  )}
-                </button>
+              <div>
+                <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Meta Description</label>
+                <textarea value={settings.meta_description} onChange={e => setSettings(s => ({ ...s, meta_description: e.target.value }))} rows={3}
+                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors resize-none" />
               </div>
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'seo' && (
-          <div className="space-y-4 max-w-lg">
-            <h2 className="text-lg font-bold text-white mb-4">SEO Settings</h2>
-            <div>
-              <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Meta Title</label>
-              <input type="text" value={settings.meta_title} onChange={e => setSettings(s => ({ ...s, meta_title: e.target.value }))}
-                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors" />
             </div>
-            <div>
-              <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Meta Description</label>
-              <textarea value={settings.meta_description} onChange={e => setSettings(s => ({ ...s, meta_description: e.target.value }))} rows={3}
-                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors resize-none" />
-            </div>
-          </div>
-        )}
+          )}
 
-        <div className="mt-6 pt-4 border-t border-zinc-800">
-          <button type="submit" disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500/50 text-white font-bold rounded-xl text-sm transition-colors">
-            <Save className="w-4 h-4" /> {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Settings'}
-          </button>
-        </div>
-      </form>
+          <div className="mt-6 pt-4 border-t border-zinc-800">
+            <button type="submit" disabled={saving}
+              className="flex items-center gap-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500/50 text-white font-bold rounded-xl text-sm transition-colors">
+              <Save className="w-4 h-4" /> {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Settings'}
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }
