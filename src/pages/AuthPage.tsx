@@ -1,16 +1,26 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Eye, EyeOff, Bike } from 'lucide-react';
+import { Eye, EyeOff, Bike, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthPage() {
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, user, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [form, setForm] = useState({ email: '', password: '', full_name: '', phone: '' });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // If already logged in, redirect to appropriate dashboard
+  if (user) {
+    if (isAdmin) {
+      navigate('/admin', { replace: true });
+    } else {
+      navigate('/dashboard', { replace: true });
+    }
+    return null;
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -96,6 +106,11 @@ export default function AuthPage() {
           </form>
           <p className="text-center text-xs text-gray-600 mt-6">
             By continuing, you agree to our <Link to="/terms" className="text-gray-500 hover:text-white transition-colors">Terms of Service</Link> and <Link to="/privacy" className="text-gray-500 hover:text-white transition-colors">Privacy Policy</Link>.
+          </p>
+          <p className="text-center text-xs text-gray-700 mt-4">
+            <Link to="/admin/auth" className="text-gray-600 hover:text-gray-400 transition-colors flex items-center justify-center gap-1">
+              <Shield className="w-3 h-3" /> Admin? Sign in here
+            </Link>
           </p>
         </div>
       </div>

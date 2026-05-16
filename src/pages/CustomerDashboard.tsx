@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { User, Heart, Calendar, MessageSquare, LogOut, Settings, ChevronRight } from 'lucide-react';
+import { User, Heart, Calendar, MessageSquare, LogOut, Settings, ChevronRight, Bike, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
 
@@ -23,11 +23,37 @@ export default function CustomerDashboard() {
   if (!user) return null;
 
   return (
-    <div className="bg-zinc-950 min-h-screen pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="bg-zinc-950 min-h-screen">
+      {/* Customer Top Bar */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-zinc-900 border-b border-zinc-800 h-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center group-hover:bg-blue-400 transition-colors">
+                <Bike className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <span className="block text-white font-black text-sm leading-tight">NAIROBI</span>
+                <span className="block text-blue-400 font-bold text-[10px] tracking-[0.15em] leading-tight">POWERBIKES</span>
+              </div>
+            </Link>
+            <span className="hidden sm:block text-gray-500 text-xs ml-2 pl-2 border-l border-zinc-700">My Dashboard</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors px-3 py-2 bg-zinc-800 rounded-lg">
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to Site
+            </Link>
+            <button onClick={handleSignOut} className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 transition-colors px-3 py-2 bg-red-500/10 rounded-lg">
+              <LogOut className="w-3.5 h-3.5" /> Sign Out
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="lg:w-72 flex-shrink-0">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 mb-4">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-14 h-14 bg-blue-500/20 border border-blue-500/30 rounded-full flex items-center justify-center text-blue-400 font-black text-xl">
                   {(profile?.full_name || user.email || 'U').charAt(0).toUpperCase()}
@@ -44,9 +70,6 @@ export default function CustomerDashboard() {
                     <Icon className="w-4 h-4" />{label}<ChevronRight className="w-3.5 h-3.5 ml-auto" />
                   </NavLink>
                 ))}
-                <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all">
-                  <LogOut className="w-4 h-4" />Sign Out
-                </button>
               </nav>
             </div>
           </aside>

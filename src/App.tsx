@@ -17,17 +17,18 @@ import CustomerDashboard, {
   DashboardHome, DashboardWishlist, DashboardBookings, DashboardInquiries, DashboardProfile,
 } from './pages/CustomerDashboard';
 
+import AdminAuthPage from './pages/AdminAuthPage';
 import AdminDashboard, {
   AdminHome, AdminBikes, AdminBookings, AdminInquiries, AdminCustomers, AdminBlogPosts, AdminSettings,
 } from './pages/AdminDashboard';
 
 function AppLayout() {
   const { pathname } = useLocation();
-  const hideFooter = pathname.startsWith('/auth') || pathname.startsWith('/dashboard') || pathname.startsWith('/admin');
+  const hideLayout = pathname.startsWith('/auth') || pathname.startsWith('/admin/auth') || pathname.startsWith('/dashboard') || (pathname.startsWith('/admin') && !pathname.startsWith('/admin/auth'));
 
   return (
     <>
-      <Header />
+      {!hideLayout && <Header />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/bikes" element={<BikesPage />} />
@@ -46,6 +47,7 @@ function AppLayout() {
           <Route path="inquiries" element={<DashboardInquiries />} />
           <Route path="profile" element={<DashboardProfile />} />
         </Route>
+        <Route path="/admin/auth" element={<AdminAuthPage />} />
         <Route path="/admin" element={<AdminDashboard />}>
           <Route index element={<AdminHome />} />
           <Route path="bikes" element={<AdminBikes />} />
@@ -56,7 +58,7 @@ function AppLayout() {
           <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Routes>
-      {!hideFooter && <Footer />}
+      {!hideLayout && <Footer />}
     </>
   );
 }
