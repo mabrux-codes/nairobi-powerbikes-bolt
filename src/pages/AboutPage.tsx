@@ -18,14 +18,14 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <main className="bg-zinc-950 min-h-screen pt-24 pb-20">
+    <main className="bg-neutral-950 min-h-screen pt-24 pb-20">
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.pexels.com/photos/1413412/pexels-photo-1413412.jpeg" alt="" className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/60 to-zinc-950" />
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/60 to-neutral-950" />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-blue-400 font-semibold text-sm tracking-wider uppercase mb-4">Our Story</p>
+          <p className="text-red-400 font-semibold text-sm tracking-wider uppercase mb-4">Our Story</p>
           <h1 className="text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">About Nairobi<br />Powerbikes</h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">Born from a passion for riding, built on a promise of quality. We are Kenya's premier destination for premium motorcycles.</p>
         </div>
@@ -34,7 +34,7 @@ export default function AboutPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <p className="text-blue-400 font-semibold text-sm tracking-wider uppercase mb-3">Our Journey</p>
+            <p className="text-red-400 font-semibold text-sm tracking-wider uppercase mb-3">Our Journey</p>
             <h2 className="text-4xl font-black text-white mb-6">Where It All Began</h2>
             <div className="space-y-4 text-gray-400 leading-relaxed">
               <p>Nairobi Powerbikes was founded in 2017 by David Kimani, a lifelong motorcycle enthusiast who saw a gap in the Kenyan market for genuinely premium, properly documented imported motorcycles.</p>
@@ -51,15 +51,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-zinc-900/30 border-y border-zinc-800">
+      <section className="py-16 bg-neutral-900/30 border-y border-neutral-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
-            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-5"><Target className="w-6 h-6 text-blue-400" /></div>
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8">
+            <div className="w-12 h-12 bg-red-600/20 rounded-xl flex items-center justify-center mb-5"><Target className="w-6 h-6 text-red-400" /></div>
             <h3 className="text-2xl font-black text-white mb-3">Our Mission</h3>
             <p className="text-gray-400 leading-relaxed">To democratize access to premium motorcycles in Kenya by providing a trustworthy, transparent, and professional platform where every rider can find their perfect machine.</p>
           </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
-            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-5"><Zap className="w-6 h-6 text-blue-400" /></div>
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8">
+            <div className="w-12 h-12 bg-red-600/20 rounded-xl flex items-center justify-center mb-5"><Zap className="w-6 h-6 text-red-400" /></div>
             <h3 className="text-2xl font-black text-white mb-3">Our Vision</h3>
             <p className="text-gray-400 leading-relaxed">To be East Africa's leading premium motorcycle dealership, recognized for our uncompromising quality standards, customer-first culture, and contribution to building a vibrant riding community.</p>
           </div>
@@ -68,13 +68,13 @@ export default function AboutPage() {
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <p className="text-blue-400 font-semibold text-sm tracking-wider uppercase mb-2">What Drives Us</p>
+          <p className="text-red-400 font-semibold text-sm tracking-wider uppercase mb-2">What Drives Us</p>
           <h2 className="text-4xl font-black text-white">Core Values</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {values.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="bg-zinc-900 border border-zinc-800 hover:border-blue-500/40 rounded-2xl p-6 group transition-all hover:-translate-y-1 duration-300">
-              <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors"><Icon className="w-6 h-6 text-blue-400" /></div>
+            <div key={title} className="bg-neutral-900 border border-neutral-800 hover:border-red-500/40 rounded-2xl p-6 group transition-all hover:-translate-y-1 duration-300">
+              <div className="w-12 h-12 bg-red-600/10 border border-red-600/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-red-600/20 transition-colors"><Icon className="w-6 h-6 text-red-300" /></div>
               <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
             </div>
@@ -82,21 +82,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-zinc-900/30 border-t border-zinc-800">
+      <section className="py-20 bg-neutral-900/30 border-t border-neutral-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <p className="text-blue-400 font-semibold text-sm tracking-wider uppercase mb-2">The People Behind</p>
+            <p className="text-red-400 font-semibold text-sm tracking-wider uppercase mb-2">The People Behind</p>
             <h2 className="text-4xl font-black text-white">Meet Our Team</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map(member => (
-              <div key={member.name} className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden group hover:border-blue-500/40 transition-all hover:-translate-y-1 duration-300">
+              <div key={member.name} className="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden group hover:border-red-500/40 transition-all hover:-translate-y-1 duration-300">
                 <div className="aspect-square overflow-hidden">
                   <img src={member.img} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-5">
                   <h3 className="text-white font-bold text-lg mb-0.5">{member.name}</h3>
-                  <p className="text-blue-400 text-sm font-semibold mb-3">{member.role}</p>
+                  <p className="text-red-400 text-sm font-semibold mb-3">{member.role}</p>
                   <p className="text-gray-400 text-xs leading-relaxed">{member.bio}</p>
                 </div>
               </div>

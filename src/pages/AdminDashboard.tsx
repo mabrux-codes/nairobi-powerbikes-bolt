@@ -32,9 +32,9 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="bg-zinc-950 min-h-screen">
+    <div className="bg-neutral-950 min-h-screen">
       {/* Admin Top Bar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-zinc-900 border-b border-zinc-800 h-16">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-neutral-900 border-b border-neutral-800 h-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-yellow-500/20 border border-yellow-500/30 rounded-lg flex items-center justify-center">
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors px-3 py-2 bg-zinc-800 rounded-lg">
+            <Link to="/" className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors px-3 py-2 bg-neutral-800 rounded-lg">
               <ArrowLeft className="w-3.5 h-3.5" /> View Site
             </Link>
             <button onClick={handleSignOut} className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 transition-colors px-3 py-2 bg-red-500/10 rounded-lg">
@@ -59,14 +59,14 @@ export default function AdminDashboard() {
       <div className="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="lg:w-64 flex-shrink-0">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 lg:sticky lg:top-24">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 lg:sticky lg:top-24">
               <nav className="space-y-1">
                 {adminNav.map(({ to, label, icon: Icon, end }) => (
                   <NavLink key={to} to={to} end={end}
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${isActive
                         ? 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/25'
-                        : 'text-gray-400 hover:text-white hover:bg-zinc-800'}`
+                        : 'text-gray-400 hover:text-white hover:bg-neutral-800'}`
                     }>
                     <Icon className="w-4 h-4" />
                     {label}
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
 
 function StatCard({ label, value, icon: Icon, color, sub }: { label: string; value: number | string; icon: React.ElementType; color: string; sub?: string }) {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 hover:border-zinc-700 transition-colors">
+    <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 hover:border-neutral-700 transition-colors">
       <div className="flex items-start justify-between mb-3">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>
           <Icon className="w-5 h-5" />
@@ -107,18 +107,18 @@ function StatusBadge({ status }: { status: string }) {
     pending: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
     approved: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
     cancelled: 'bg-red-500/20 text-red-400 border-red-500/30',
-    completed: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    completed: 'bg-red-600/20 text-red-400 border-red-600/30',
     rescheduled: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-    new: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    new: 'bg-red-600/20 text-red-400 border-red-600/30',
     read: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
     replied: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    closed: 'bg-zinc-500/20 text-zinc-400 border-zinc-500/30',
+    closed: 'bg-neutral-500/20 text-neutral-400 border-neutral-500/30',
     available: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
     reserved: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
     sold: 'bg-red-500/20 text-red-400 border-red-500/30',
   };
   return (
-    <span className={`px-2.5 py-1 text-xs font-bold rounded-full border capitalize ${map[status] || 'bg-zinc-800 text-gray-400 border-zinc-700'}`}>
+    <span className={`px-2.5 py-1 text-xs font-bold rounded-full border capitalize ${map[status] || 'bg-neutral-800 text-gray-400 border-neutral-700'}`}>
       {status}
     </span>
   );
@@ -126,7 +126,7 @@ function StatusBadge({ status }: { status: string }) {
 
 function EmptyState({ icon: Icon, title, desc, action }: { icon: React.ElementType; title: string; desc: string; action?: React.ReactNode }) {
   return (
-    <div className="text-center py-16 bg-zinc-900 rounded-2xl border border-zinc-800">
+    <div className="text-center py-16 bg-neutral-900 rounded-2xl border border-neutral-800">
       <Icon className="w-12 h-12 text-gray-700 mx-auto mb-3" />
       <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
       <p className="text-gray-400 text-sm mb-4">{desc}</p>
@@ -196,7 +196,7 @@ export function AdminHome() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Bikes" value={stats.bikes} icon={Bike} color="bg-blue-500/15 text-blue-400" sub={`${stats.available} available`} />
+        <StatCard label="Total Bikes" value={stats.bikes} icon={Bike} color="bg-red-600/15 text-red-400" sub={`${stats.available} available`} />
         <StatCard label="Bikes Sold" value={stats.sold} icon={CheckCircle} color="bg-emerald-500/15 text-emerald-400" sub={`KES ${(stats.revenue / 1000000).toFixed(1)}M revenue`} />
         <StatCard label="Pending Bookings" value={stats.pendingBookings} icon={Calendar} color="bg-yellow-500/15 text-yellow-400" sub={`${stats.bookings} total`} />
         <StatCard label="New Inquiries" value={stats.newInquiries} icon={MessageSquare} color="bg-orange-500/15 text-orange-400" sub={`${stats.inquiries} total`} />
@@ -204,8 +204,8 @@ export function AdminHome() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Inventory Breakdown */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-blue-400" /> Inventory by Type</h2>
+        <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-red-400" /> Inventory by Type</h2>
           <div className="space-y-3">
             {bikeTypeBreakdown.map(({ bike_type, count }) => {
               const pct = stats.bikes > 0 ? Math.round((count / stats.bikes) * 100) : 0;
@@ -215,8 +215,8 @@ export function AdminHome() {
                     <span className="text-gray-300 capitalize">{bike_type}</span>
                     <span className="text-gray-500">{count} ({pct}%)</span>
                   </div>
-                  <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-500 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                  <div className="h-2 bg-neutral-800 rounded-full overflow-hidden">
+                    <div className="h-full bg-red-600 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                   </div>
                 </div>
               );
@@ -226,16 +226,16 @@ export function AdminHome() {
         </div>
 
         {/* Recent Bookings */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+        <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-white flex items-center gap-2"><Calendar className="w-5 h-5 text-yellow-400" /> Recent Bookings</h2>
-            <Link to="/admin/bookings" className="text-xs text-blue-400 hover:text-blue-300 font-semibold">View all →</Link>
+            <Link to="/admin/bookings" className="text-xs text-red-400 hover:text-red-300 font-semibold">View all →</Link>
           </div>
           <div className="space-y-3">
             {recentBookings.length === 0 ? (
               <p className="text-gray-500 text-sm">No bookings yet.</p>
             ) : recentBookings.map(b => (
-              <div key={b.id} className="flex items-center justify-between gap-3 py-2 border-b border-zinc-800 last:border-0">
+              <div key={b.id} className="flex items-center justify-between gap-3 py-2 border-b border-neutral-800 last:border-0">
                 <div className="min-w-0">
                   <p className="text-white text-sm font-medium truncate">{b.full_name}</p>
                   <p className="text-gray-500 text-xs">{b.bike?.name || 'Any bike'} • {b.preferred_date}</p>
@@ -247,16 +247,16 @@ export function AdminHome() {
         </div>
 
         {/* Recent Inquiries */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+        <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-white flex items-center gap-2"><MessageSquare className="w-5 h-5 text-orange-400" /> Recent Inquiries</h2>
-            <Link to="/admin/inquiries" className="text-xs text-blue-400 hover:text-blue-300 font-semibold">View all →</Link>
+            <Link to="/admin/inquiries" className="text-xs text-red-400 hover:text-red-300 font-semibold">View all →</Link>
           </div>
           <div className="space-y-3">
             {recentInquiries.length === 0 ? (
               <p className="text-gray-500 text-sm">No inquiries yet.</p>
             ) : recentInquiries.map(i => (
-              <div key={i.id} className="flex items-start justify-between gap-3 py-2 border-b border-zinc-800 last:border-0">
+              <div key={i.id} className="flex items-start justify-between gap-3 py-2 border-b border-neutral-800 last:border-0">
                 <div className="min-w-0">
                   <p className="text-white text-sm font-medium truncate">{i.full_name}</p>
                   <p className="text-gray-500 text-xs line-clamp-1">{i.message}</p>
@@ -269,10 +269,10 @@ export function AdminHome() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+      <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
         <h2 className="text-lg font-bold text-white mb-4">Quick Actions</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Link to="/admin/bikes" className="flex items-center gap-2 px-4 py-3 bg-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 rounded-xl text-blue-400 font-semibold text-sm transition-all">
+          <Link to="/admin/bikes" className="flex items-center gap-2 px-4 py-3 bg-red-600/10 border border-red-600/20 hover:border-red-500/40 rounded-xl text-red-400 font-semibold text-sm transition-all">
             <Plus className="w-4 h-4" /> Add Bike
           </Link>
           <Link to="/admin/bookings" className="flex items-center gap-2 px-4 py-3 bg-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 rounded-xl text-yellow-400 font-semibold text-sm transition-all">
@@ -412,7 +412,7 @@ export function AdminBikes() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-black text-white">Bike Inventory</h1>
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-xl transition-colors text-sm">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition-colors text-sm">
           <Plus className="w-4 h-4" /> Add Bike
         </button>
       </div>
@@ -422,18 +422,18 @@ export function AdminBikes() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search bikes..."
-            className="w-full pl-9 pr-4 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500" />
+            className="w-full pl-9 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600" />
         </div>
         <div className="flex gap-2">
           <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
-            className="px-3 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 cursor-pointer appearance-none">
+            className="px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600 cursor-pointer appearance-none">
             <option value="">All Status</option>
             <option value="available">Available</option>
             <option value="reserved">Reserved</option>
             <option value="sold">Sold</option>
           </select>
           <select value={filterType} onChange={e => setFilterType(e.target.value)}
-            className="px-3 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 cursor-pointer appearance-none capitalize">
+            className="px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600 cursor-pointer appearance-none capitalize">
             <option value="">All Types</option>
             {bikeTypes.map(t => <option key={t} value={t} className="capitalize">{t}</option>)}
           </select>
@@ -443,10 +443,10 @@ export function AdminBikes() {
       {/* Add/Edit Form Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 pb-8 px-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-3xl shadow-2xl">
-            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
+          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl w-full max-w-3xl shadow-2xl">
+            <div className="flex items-center justify-between p-6 border-b border-neutral-800">
               <h2 className="text-xl font-bold text-white">{editingBike ? 'Edit Bike' : 'Add New Bike'}</h2>
-              <button onClick={() => { setShowForm(false); setEditingBike(null); }} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors">
+              <button onClick={() => { setShowForm(false); setEditingBike(null); }} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-neutral-800 transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -471,13 +471,13 @@ export function AdminBikes() {
                   <label className="block text-xs text-gray-400 mb-1.5 font-medium">{label}</label>
                   <input type={type} required={required} value={(form as Record<string, string | number | boolean>)[key] as string}
                     onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
-                    className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 transition-colors" />
+                    className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 transition-colors" />
                 </div>
               ))}
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Brand</label>
                 <select value={form.brand_id} onChange={e => setForm(f => ({ ...f, brand_id: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500">
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600">
                   <option value="">— Select Brand —</option>
                   {brands.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
                 </select>
@@ -485,49 +485,49 @@ export function AdminBikes() {
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Bike Type</label>
                 <select value={form.bike_type} onChange={e => setForm(f => ({ ...f, bike_type: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 capitalize">
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 capitalize">
                   {bikeTypes.map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Condition</label>
                 <select value={form.condition} onChange={e => setForm(f => ({ ...f, condition: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500">
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600">
                   {conditions.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Transmission</label>
                 <select value={form.transmission} onChange={e => setForm(f => ({ ...f, transmission: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500">
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600">
                   {transmissions.map(t => <option key={t} value={t}>{t.replace('-', ' ')}</option>)}
                 </select>
               </div>
               <div className="sm:col-span-2 lg:col-span-3">
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Description</label>
                 <textarea value={form.description} rows={3} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 resize-none" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 resize-none" />
               </div>
               <div className="sm:col-span-2 lg:col-span-3">
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Seller Notes</label>
                 <textarea value={form.seller_notes} rows={2} onChange={e => setForm(f => ({ ...f, seller_notes: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 resize-none" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 resize-none" />
               </div>
               <div className="sm:col-span-2 lg:col-span-3 flex gap-6">
                 <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                  <input type="checkbox" checked={form.is_featured} onChange={e => setForm(f => ({ ...f, is_featured: e.target.checked }))} className="w-4 h-4 accent-blue-500" /> Featured
+                  <input type="checkbox" checked={form.is_featured} onChange={e => setForm(f => ({ ...f, is_featured: e.target.checked }))} className="w-4 h-4 accent-red-600" /> Featured
                 </label>
                 <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                  <input type="checkbox" checked={form.financing_available} onChange={e => setForm(f => ({ ...f, financing_available: e.target.checked }))} className="w-4 h-4 accent-blue-500" /> Financing Available
+                  <input type="checkbox" checked={form.financing_available} onChange={e => setForm(f => ({ ...f, financing_available: e.target.checked }))} className="w-4 h-4 accent-red-600" /> Financing Available
                 </label>
               </div>
               <div className="sm:col-span-2 lg:col-span-3 flex gap-3 pt-2">
                 <button type="submit" disabled={saving}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500/50 text-white font-bold rounded-xl text-sm transition-colors">
+                  className="flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-500 disabled:bg-red-600/50 text-white font-bold rounded-xl text-sm transition-colors">
                   <Save className="w-4 h-4" /> {saving ? 'Saving...' : editingBike ? 'Update Bike' : 'Save Bike'}
                 </button>
                 <button type="button" onClick={() => { setShowForm(false); setEditingBike(null); }}
-                  className="px-6 py-2.5 border border-zinc-700 text-gray-300 hover:text-white font-semibold rounded-xl text-sm transition-colors">
+                  className="px-6 py-2.5 border border-neutral-700 text-gray-300 hover:text-white font-semibold rounded-xl text-sm transition-colors">
                   Cancel
                 </button>
               </div>
@@ -539,7 +539,7 @@ export function AdminBikes() {
       {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center"><AlertCircle className="w-5 h-5 text-red-400" /></div>
               <h3 className="text-white font-bold text-lg">Delete Bike?</h3>
@@ -547,7 +547,7 @@ export function AdminBikes() {
             <p className="text-gray-400 text-sm mb-6">This action cannot be undone. The bike and all its images will be permanently removed.</p>
             <div className="flex gap-3">
               <button onClick={() => confirmDelete(deleteConfirm)} className="flex-1 py-2.5 bg-red-500 hover:bg-red-400 text-white font-bold rounded-xl text-sm transition-colors">Delete</button>
-              <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-2.5 border border-zinc-700 text-gray-300 hover:text-white font-semibold rounded-xl text-sm transition-colors">Cancel</button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-2.5 border border-neutral-700 text-gray-300 hover:text-white font-semibold rounded-xl text-sm transition-colors">Cancel</button>
             </div>
           </div>
         </div>
@@ -555,16 +555,16 @@ export function AdminBikes() {
 
       {/* Bike List */}
       {loading ? (
-        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-zinc-900 rounded-2xl h-20 animate-pulse border border-zinc-800" />)}</div>
+        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-neutral-900 rounded-2xl h-20 animate-pulse border border-neutral-800" />)}</div>
       ) : bikes.length === 0 ? (
         <EmptyState icon={Bike} title="No bikes found" desc="Add your first bike to get started." action={
-          <button onClick={openAdd} className="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-xl text-sm transition-colors">Add First Bike</button>
+          <button onClick={openAdd} className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-sm transition-colors">Add First Bike</button>
         } />
       ) : (
         <div className="space-y-3">
           <p className="text-gray-400 text-sm">{bikes.length} bike{bikes.length !== 1 ? 's' : ''}</p>
           {bikes.map(bike => (
-            <div key={bike.id} className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 flex items-center gap-4 transition-colors">
+            <div key={bike.id} className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-2xl p-4 flex items-center gap-4 transition-colors">
               <img src={bike.cover_image_url || 'https://images.pexels.com/photos/2116475/pexels-photo-2116475.jpeg'} alt=""
                 className="w-20 h-16 object-cover rounded-xl flex-shrink-0" />
               <div className="flex-1 min-w-0">
@@ -577,20 +577,20 @@ export function AdminBikes() {
               <div className="flex items-center gap-2 flex-shrink-0">
                 <StatusBadge status={bike.status} />
                 <button onClick={() => toggleFeatured(bike.id, bike.is_featured)} title={bike.is_featured ? 'Unfeature' : 'Feature'}
-                  className="p-2 text-gray-400 hover:text-yellow-400 bg-zinc-800 rounded-lg transition-colors">
+                  className="p-2 text-gray-400 hover:text-yellow-400 bg-neutral-800 rounded-lg transition-colors">
                   {bike.is_featured ? <ToggleRight className="w-4 h-4 text-yellow-400" /> : <ToggleLeft className="w-4 h-4" />}
                 </button>
-                <Link to={`/bikes/${bike.slug}`} className="p-2 text-gray-400 hover:text-blue-400 bg-zinc-800 rounded-lg transition-colors">
+                <Link to={`/bikes/${bike.slug}`} className="p-2 text-gray-400 hover:text-red-400 bg-neutral-800 rounded-lg transition-colors">
                   <Eye className="w-4 h-4" />
                 </Link>
-                <button onClick={() => openEdit(bike)} className="p-2 text-gray-400 hover:text-emerald-400 bg-zinc-800 rounded-lg transition-colors">
+                <button onClick={() => openEdit(bike)} className="p-2 text-gray-400 hover:text-emerald-400 bg-neutral-800 rounded-lg transition-colors">
                   <Edit3 className="w-4 h-4" />
                 </button>
                 <button onClick={() => toggleStatus(bike.id, bike.status)} title={bike.status === 'available' ? 'Mark Sold' : 'Mark Available'}
-                  className="p-2 text-gray-400 hover:text-emerald-400 bg-zinc-800 rounded-lg transition-colors">
+                  className="p-2 text-gray-400 hover:text-emerald-400 bg-neutral-800 rounded-lg transition-colors">
                   {bike.status === 'available' ? <XCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                 </button>
-                <button onClick={() => setDeleteConfirm(bike.id)} className="p-2 text-gray-400 hover:text-red-400 bg-zinc-800 rounded-lg transition-colors">
+                <button onClick={() => setDeleteConfirm(bike.id)} className="p-2 text-gray-400 hover:text-red-400 bg-neutral-800 rounded-lg transition-colors">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
@@ -665,10 +665,10 @@ export function AdminBookings() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by name or email..."
-            className="w-full pl-9 pr-4 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500" />
+            className="w-full pl-9 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600" />
         </div>
         <select value={filter} onChange={e => setFilter(e.target.value)}
-          className="px-3 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 cursor-pointer appearance-none">
+          className="px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600 cursor-pointer appearance-none">
           <option value="">All Status</option>
           <option value="pending">Pending</option>
           <option value="approved">Approved</option>
@@ -681,10 +681,10 @@ export function AdminBookings() {
       {/* Detail Modal */}
       {selectedBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-lg shadow-2xl">
-            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
+          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl w-full max-w-lg shadow-2xl">
+            <div className="flex items-center justify-between p-6 border-b border-neutral-800">
               <h2 className="text-xl font-bold text-white">Booking Details</h2>
-              <button onClick={() => setSelectedBooking(null)} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-zinc-800"><X className="w-5 h-5" /></button>
+              <button onClick={() => setSelectedBooking(null)} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-neutral-800"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -716,19 +716,19 @@ export function AdminBookings() {
               {selectedBooking.notes && (
                 <div>
                   <p className="text-gray-500 text-xs mb-1">Customer Notes</p>
-                  <p className="text-gray-300 text-sm bg-zinc-800 rounded-xl p-3">{selectedBooking.notes}</p>
+                  <p className="text-gray-300 text-sm bg-neutral-800 rounded-xl p-3">{selectedBooking.notes}</p>
                 </div>
               )}
               <div>
                 <label className="block text-gray-500 text-xs mb-1 font-medium">Admin Notes</label>
                 <textarea value={adminNote} onChange={e => setAdminNote(e.target.value)} rows={3}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 resize-none" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 resize-none" />
                 <button onClick={saveAdminNotes} disabled={saving}
-                  className="mt-2 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5">
+                  className="mt-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5">
                   <Save className="w-3 h-3" /> {saving ? 'Saving...' : 'Save Notes'}
                 </button>
               </div>
-              <div className="flex gap-2 pt-3 border-t border-zinc-800">
+              <div className="flex gap-2 pt-3 border-t border-neutral-800">
                 {selectedBooking.status === 'pending' && (
                   <>
                     <button onClick={() => updateStatus(selectedBooking.id, 'approved')} className="flex-1 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-xl text-sm transition-colors">Approve</button>
@@ -737,10 +737,10 @@ export function AdminBookings() {
                   </>
                 )}
                 {selectedBooking.status === 'approved' && (
-                  <button onClick={() => updateStatus(selectedBooking.id, 'completed')} className="flex-1 py-2.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 font-bold rounded-xl text-sm transition-colors">Mark Completed</button>
+                  <button onClick={() => updateStatus(selectedBooking.id, 'completed')} className="flex-1 py-2.5 bg-red-600/20 hover:bg-red-600/30 text-red-400 font-bold rounded-xl text-sm transition-colors">Mark Completed</button>
                 )}
                 {(selectedBooking.status === 'cancelled' || selectedBooking.status === 'completed') && (
-                  <button onClick={() => updateStatus(selectedBooking.id, 'pending')} className="flex-1 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-gray-300 font-bold rounded-xl text-sm transition-colors">Reopen</button>
+                  <button onClick={() => updateStatus(selectedBooking.id, 'pending')} className="flex-1 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-gray-300 font-bold rounded-xl text-sm transition-colors">Reopen</button>
                 )}
               </div>
             </div>
@@ -749,14 +749,14 @@ export function AdminBookings() {
       )}
 
       {loading ? (
-        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-zinc-900 rounded-2xl h-24 animate-pulse border border-zinc-800" />)}</div>
+        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-neutral-900 rounded-2xl h-24 animate-pulse border border-neutral-800" />)}</div>
       ) : bookings.length === 0 ? (
         <EmptyState icon={Calendar} title="No bookings yet" desc="Bookings will appear here when customers schedule test rides." />
       ) : (
         <div className="space-y-3">
           <p className="text-gray-400 text-sm">{bookings.length} booking{bookings.length !== 1 ? 's' : ''}</p>
           {bookings.map(b => (
-            <div key={b.id} className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-5 transition-colors cursor-pointer" onClick={() => openDetail(b)}>
+            <div key={b.id} className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-2xl p-5 transition-colors cursor-pointer" onClick={() => openDetail(b)}>
               <div className="flex items-start justify-between gap-4 mb-2">
                 <div>
                   <p className="text-white font-bold">{b.full_name}</p>
@@ -769,7 +769,7 @@ export function AdminBookings() {
                 <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{b.preferred_date}</span>
                 <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{b.preferred_time}</span>
               </div>
-              {b.admin_notes && <p className="text-xs text-blue-400/70 mt-2 line-clamp-1">Admin: {b.admin_notes}</p>}
+              {b.admin_notes && <p className="text-xs text-red-400/70 mt-2 line-clamp-1">Admin: {b.admin_notes}</p>}
             </div>
           ))}
         </div>
@@ -833,10 +833,10 @@ export function AdminInquiries() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
           <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search inquiries..."
-            className="w-full pl-9 pr-4 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500" />
+            className="w-full pl-9 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600" />
         </div>
         <select value={filter} onChange={e => setFilter(e.target.value)}
-          className="px-3 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 cursor-pointer appearance-none">
+          className="px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600 cursor-pointer appearance-none">
           <option value="">All Status</option>
           <option value="new">New</option>
           <option value="read">Read</option>
@@ -846,61 +846,61 @@ export function AdminInquiries() {
       </div>
 
       {loading ? (
-        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-zinc-900 rounded-2xl h-32 animate-pulse border border-zinc-800" />)}</div>
+        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-neutral-900 rounded-2xl h-32 animate-pulse border border-neutral-800" />)}</div>
       ) : inquiries.length === 0 ? (
         <EmptyState icon={MessageSquare} title="No inquiries yet" desc="Customer inquiries will appear here." />
       ) : (
         <div className="space-y-4">
           <p className="text-gray-400 text-sm">{inquiries.length} inquir{inquiries.length !== 1 ? 'ies' : 'y'}</p>
           {inquiries.map(inq => (
-            <div key={inq.id} className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-5 transition-colors">
+            <div key={inq.id} className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-2xl p-5 transition-colors">
               <div className="flex items-start justify-between gap-4 mb-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <p className="text-white font-bold">{inq.full_name}</p>
-                    {inq.status === 'new' && <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />}
+                    {inq.status === 'new' && <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />}
                   </div>
                   <div className="flex items-center gap-3 text-xs text-gray-500">
                     <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{inq.email}</span>
                     <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{inq.phone}</span>
                   </div>
-                  {inq.bike?.name && <p className="text-blue-400 text-xs mt-1">Re: {inq.bike.name}</p>}
+                  {inq.bike?.name && <p className="text-red-400 text-xs mt-1">Re: {inq.bike.name}</p>}
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <StatusBadge status={inq.status} />
                   {inq.status === 'new' && (
-                    <button onClick={() => updateStatus(inq.id, 'read')} className="text-xs text-gray-400 hover:text-white border border-zinc-700 px-3 py-1 rounded-lg transition-colors">Mark Read</button>
+                    <button onClick={() => updateStatus(inq.id, 'read')} className="text-xs text-gray-400 hover:text-white border border-neutral-700 px-3 py-1 rounded-lg transition-colors">Mark Read</button>
                   )}
                   {inq.status !== 'closed' && inq.status !== 'new' && (
-                    <button onClick={() => updateStatus(inq.id, 'closed')} className="text-xs text-gray-400 hover:text-white border border-zinc-700 px-3 py-1 rounded-lg transition-colors">Close</button>
+                    <button onClick={() => updateStatus(inq.id, 'closed')} className="text-xs text-gray-400 hover:text-white border border-neutral-700 px-3 py-1 rounded-lg transition-colors">Close</button>
                   )}
                 </div>
               </div>
-              <div className="bg-zinc-800 rounded-xl p-3 mb-3">
+              <div className="bg-neutral-800 rounded-xl p-3 mb-3">
                 <p className="text-gray-300 text-sm leading-relaxed">{inq.message}</p>
               </div>
               {inq.admin_reply && (
-                <div className="bg-blue-500/5 border border-blue-500/20 rounded-xl p-3 mb-3">
-                  <p className="text-xs text-blue-400 font-semibold mb-1">Your Reply:</p>
+                <div className="bg-red-600/5 border border-red-600/20 rounded-xl p-3 mb-3">
+                  <p className="text-xs text-red-400 font-semibold mb-1">Your Reply:</p>
                   <p className="text-gray-300 text-sm leading-relaxed">{inq.admin_reply}</p>
                 </div>
               )}
               {replyingTo === inq.id ? (
                 <div className="space-y-2">
                   <textarea value={replyText} onChange={e => setReplyText(e.target.value)} rows={3} placeholder="Type your reply..."
-                    className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 resize-none" />
+                    className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 resize-none" />
                   <div className="flex gap-2">
                     <button onClick={() => sendReply(inq.id)} disabled={sending || !replyText.trim()}
-                      className="flex items-center gap-1.5 px-4 py-2 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500/50 text-white text-xs font-bold rounded-lg transition-colors">
+                      className="flex items-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-500 disabled:bg-red-600/50 text-white text-xs font-bold rounded-lg transition-colors">
                       <Send className="w-3 h-3" /> {sending ? 'Sending...' : 'Send Reply'}
                     </button>
                     <button onClick={() => { setReplyingTo(null); setReplyText(''); }}
-                      className="px-4 py-2 border border-zinc-700 text-gray-300 hover:text-white text-xs font-semibold rounded-lg transition-colors">Cancel</button>
+                      className="px-4 py-2 border border-neutral-700 text-gray-300 hover:text-white text-xs font-semibold rounded-lg transition-colors">Cancel</button>
                   </div>
                 </div>
               ) : (
                 <button onClick={() => { setReplyingTo(inq.id); setReplyText(inq.admin_reply || ''); }}
-                  className="flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+                  className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 font-semibold transition-colors">
                   <Send className="w-3 h-3" /> {inq.admin_reply ? 'Edit Reply' : 'Reply'}
                 </button>
               )}
@@ -963,20 +963,20 @@ export function AdminCustomers() {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
         <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search customers..."
-          className="w-full pl-9 pr-4 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500" />
+          className="w-full pl-9 pr-4 py-2.5 bg-neutral-900 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600" />
       </div>
 
       {/* Customer Detail Modal */}
       {selectedCustomer && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 pb-8 px-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-lg shadow-2xl">
-            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
+          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl w-full max-w-lg shadow-2xl">
+            <div className="flex items-center justify-between p-6 border-b border-neutral-800">
               <h2 className="text-xl font-bold text-white">Customer Details</h2>
-              <button onClick={() => setSelectedCustomer(null)} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-zinc-800"><X className="w-5 h-5" /></button>
+              <button onClick={() => setSelectedCustomer(null)} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-neutral-800"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6 space-y-5">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-blue-500/20 border border-blue-500/30 rounded-full flex items-center justify-center text-blue-400 font-black text-xl">
+                <div className="w-14 h-14 bg-red-600/20 border border-red-600/30 rounded-full flex items-center justify-center text-red-400 font-black text-xl">
                   {(selectedCustomer.full_name || '?').charAt(0).toUpperCase()}
                 </div>
                 <div>
@@ -985,11 +985,11 @@ export function AdminCustomers() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-zinc-800 rounded-xl p-3">
+                <div className="bg-neutral-800 rounded-xl p-3">
                   <p className="text-gray-500 text-xs mb-1 flex items-center gap-1"><Phone className="w-3 h-3" /> Phone</p>
                   <p className="text-white text-sm">{selectedCustomer.phone || 'Not provided'}</p>
                 </div>
-                <div className="bg-zinc-800 rounded-xl p-3">
+                <div className="bg-neutral-800 rounded-xl p-3">
                   <p className="text-gray-500 text-xs mb-1 flex items-center gap-1"><MapPin className="w-3 h-3" /> Address</p>
                   <p className="text-white text-sm">{selectedCustomer.address || 'Not provided'}</p>
                 </div>
@@ -999,7 +999,7 @@ export function AdminCustomers() {
                 {customerBookings.length === 0 ? <p className="text-gray-500 text-sm">No bookings.</p> : (
                   <div className="space-y-2">
                     {customerBookings.map(b => (
-                      <div key={b.id} className="flex items-center justify-between bg-zinc-800 rounded-xl p-3">
+                      <div key={b.id} className="flex items-center justify-between bg-neutral-800 rounded-xl p-3">
                         <div>
                           <p className="text-white text-sm">{b.bike?.name || 'Any bike'}</p>
                           <p className="text-gray-500 text-xs">{b.preferred_date}</p>
@@ -1015,7 +1015,7 @@ export function AdminCustomers() {
                 {customerInquiries.length === 0 ? <p className="text-gray-500 text-sm">No inquiries.</p> : (
                   <div className="space-y-2">
                     {customerInquiries.map(i => (
-                      <div key={i.id} className="flex items-start justify-between bg-zinc-800 rounded-xl p-3">
+                      <div key={i.id} className="flex items-start justify-between bg-neutral-800 rounded-xl p-3">
                         <p className="text-gray-300 text-sm line-clamp-2 flex-1 mr-3">{i.message}</p>
                         <StatusBadge status={i.status} />
                       </div>
@@ -1030,14 +1030,14 @@ export function AdminCustomers() {
       )}
 
       {loading ? (
-        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-zinc-900 rounded-xl h-16 animate-pulse border border-zinc-800" />)}</div>
+        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="bg-neutral-900 rounded-xl h-16 animate-pulse border border-neutral-800" />)}</div>
       ) : filtered.length === 0 ? (
         <EmptyState icon={Users} title="No customers found" desc={search ? 'Try a different search term.' : 'Customers will appear when they register.'} />
       ) : (
         <div className="space-y-3">
           {filtered.map(p => (
-            <div key={p.id} className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-xl p-4 flex items-center gap-4 transition-colors cursor-pointer" onClick={() => openCustomerDetail(p)}>
-              <div className="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400 font-black flex-shrink-0">
+            <div key={p.id} className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-xl p-4 flex items-center gap-4 transition-colors cursor-pointer" onClick={() => openCustomerDetail(p)}>
+              <div className="w-10 h-10 bg-red-600/20 rounded-full flex items-center justify-center text-red-400 font-black flex-shrink-0">
                 {(p.full_name || '?').charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
@@ -1128,67 +1128,67 @@ export function AdminBlogPosts() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-black text-white">Blog Posts</h1>
-        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-xl transition-colors text-sm">
+        <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition-colors text-sm">
           <Plus className="w-4 h-4" /> New Post
         </button>
       </div>
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 pb-8 px-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-2xl shadow-2xl">
-            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
+          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl w-full max-w-2xl shadow-2xl">
+            <div className="flex items-center justify-between p-6 border-b border-neutral-800">
               <h2 className="text-xl font-bold text-white">{editingPost ? 'Edit Post' : 'New Blog Post'}</h2>
-              <button onClick={() => { setShowForm(false); setEditingPost(null); }} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-zinc-800"><X className="w-5 h-5" /></button>
+              <button onClick={() => { setShowForm(false); setEditingPost(null); }} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-neutral-800"><X className="w-5 h-5" /></button>
             </div>
             <form onSubmit={savePost} className="p-6 space-y-4">
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Title *</label>
                 <input type="text" required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600" />
               </div>
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Slug (auto-generated)</label>
                 <input type="text" value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600" />
               </div>
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Excerpt</label>
                 <textarea value={form.excerpt} onChange={e => setForm(f => ({ ...f, excerpt: e.target.value }))} rows={2}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 resize-none" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 resize-none" />
               </div>
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Content</label>
                 <textarea value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} rows={8}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500 resize-none" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600 resize-none" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs text-gray-400 mb-1.5 font-medium">Author</label>
                   <input type="text" value={form.author} onChange={e => setForm(f => ({ ...f, author: e.target.value }))}
-                    className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500" />
+                    className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600" />
                 </div>
                 <div>
                   <label className="block text-xs text-gray-400 mb-1.5 font-medium">Tags (comma separated)</label>
                   <input type="text" value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} placeholder="review, yamaha, tips"
-                    className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500" />
+                    className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600" />
                 </div>
               </div>
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-medium">Cover Image URL</label>
                 <input type="url" value={form.cover_image_url} onChange={e => setForm(f => ({ ...f, cover_image_url: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg focus:outline-none focus:border-blue-500" />
+                  className="w-full px-3 py-2.5 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-lg focus:outline-none focus:border-red-600" />
               </div>
               <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                <input type="checkbox" checked={form.is_published} onChange={e => setForm(f => ({ ...f, is_published: e.target.checked }))} className="w-4 h-4 accent-blue-500" />
+                <input type="checkbox" checked={form.is_published} onChange={e => setForm(f => ({ ...f, is_published: e.target.checked }))} className="w-4 h-4 accent-red-600" />
                 Publish immediately
               </label>
               <div className="flex gap-3 pt-2">
                 <button type="submit" disabled={saving}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500/50 text-white font-bold rounded-xl text-sm transition-colors">
+                  className="flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-500 disabled:bg-red-600/50 text-white font-bold rounded-xl text-sm transition-colors">
                   <Save className="w-4 h-4" /> {saving ? 'Saving...' : editingPost ? 'Update Post' : 'Create Post'}
                 </button>
                 <button type="button" onClick={() => { setShowForm(false); setEditingPost(null); }}
-                  className="px-6 py-2.5 border border-zinc-700 text-gray-300 hover:text-white font-semibold rounded-xl text-sm transition-colors">Cancel</button>
+                  className="px-6 py-2.5 border border-neutral-700 text-gray-300 hover:text-white font-semibold rounded-xl text-sm transition-colors">Cancel</button>
               </div>
             </form>
           </div>
@@ -1196,20 +1196,20 @@ export function AdminBlogPosts() {
       )}
 
       {loading ? (
-        <div className="space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-zinc-900 rounded-2xl h-20 animate-pulse border border-zinc-800" />)}</div>
+        <div className="space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-neutral-900 rounded-2xl h-20 animate-pulse border border-neutral-800" />)}</div>
       ) : posts.length === 0 ? (
         <EmptyState icon={FileText} title="No blog posts yet" desc="Create your first blog post to engage your audience." action={
-          <button onClick={openAdd} className="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-xl text-sm transition-colors">Create First Post</button>
+          <button onClick={openAdd} className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-sm transition-colors">Create First Post</button>
         } />
       ) : (
         <div className="space-y-3">
           {posts.map(post => (
-            <div key={post.id} className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl p-4 flex items-center gap-4 transition-colors">
+            <div key={post.id} className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-2xl p-4 flex items-center gap-4 transition-colors">
               {post.cover_image_url && <img src={post.cover_image_url} alt="" className="w-16 h-12 object-cover rounded-lg flex-shrink-0" />}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
                   <p className="text-white font-bold text-sm truncate">{post.title}</p>
-                  <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${post.is_published ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-zinc-700/50 text-gray-400 border-zinc-600'}`}>
+                  <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${post.is_published ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-neutral-700/50 text-gray-400 border-neutral-600'}`}>
                     {post.is_published ? 'Published' : 'Draft'}
                   </span>
                 </div>
@@ -1217,13 +1217,13 @@ export function AdminBlogPosts() {
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button onClick={() => togglePublished(post.id, post.is_published)} title={post.is_published ? 'Unpublish' : 'Publish'}
-                  className="p-2 text-gray-400 hover:text-emerald-400 bg-zinc-800 rounded-lg transition-colors">
+                  className="p-2 text-gray-400 hover:text-emerald-400 bg-neutral-800 rounded-lg transition-colors">
                   {post.is_published ? <ToggleRight className="w-4 h-4 text-emerald-400" /> : <ToggleLeft className="w-4 h-4" />}
                 </button>
-                <button onClick={() => openEdit(post)} className="p-2 text-gray-400 hover:text-blue-400 bg-zinc-800 rounded-lg transition-colors">
+                <button onClick={() => openEdit(post)} className="p-2 text-gray-400 hover:text-red-400 bg-neutral-800 rounded-lg transition-colors">
                   <Edit3 className="w-4 h-4" />
                 </button>
-                <button onClick={() => deletePost(post.id)} className="p-2 text-gray-400 hover:text-red-400 bg-zinc-800 rounded-lg transition-colors">
+                <button onClick={() => deletePost(post.id)} className="p-2 text-gray-400 hover:text-red-400 bg-neutral-800 rounded-lg transition-colors">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
@@ -1409,10 +1409,10 @@ export function AdminSettings() {
     <div className="space-y-6">
       <h1 className="text-2xl font-black text-white">Settings</h1>
 
-      <div className="flex gap-1 bg-zinc-900 rounded-xl p-1 w-fit flex-wrap">
+      <div className="flex gap-1 bg-neutral-900 rounded-xl p-1 w-fit flex-wrap">
         {tabs.map(({ key, label, icon: Icon }) => (
           <button key={key} onClick={() => setActiveTab(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${activeTab === key ? 'bg-blue-500 text-white shadow' : 'text-gray-400 hover:text-white'}`}>
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${activeTab === key ? 'bg-red-600 text-white shadow' : 'text-gray-400 hover:text-white'}`}>
             <Icon className="w-4 h-4" />{label}
           </button>
         ))}
@@ -1421,7 +1421,7 @@ export function AdminSettings() {
       {activeTab === 'access' ? (
         <div className="space-y-6">
           {/* Grant Admin Access */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-10 h-10 bg-yellow-500/20 border border-yellow-500/30 rounded-xl flex items-center justify-center">
                 <Shield className="w-5 h-5 text-yellow-400" />
@@ -1437,10 +1437,10 @@ export function AdminSettings() {
                 <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">User Email Address</label>
                 <div className="flex gap-3">
                   <input type="email" required value={grantEmail} onChange={e => setGrantEmail(e.target.value)} placeholder="user@example.com"
-                    className="flex-1 px-4 py-3 bg-zinc-800 border border-zinc-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-yellow-500 transition-colors" />
+                    className="flex-1 px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-yellow-500 transition-colors" />
                   <button type="submit" disabled={accessAction === 'granting' || !grantEmail.trim()}
-                    className="flex items-center gap-2 px-5 py-3 bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-500/50 text-zinc-900 font-bold rounded-xl transition-colors text-sm whitespace-nowrap">
-                    {accessAction === 'granting' ? <><span className="w-4 h-4 border-2 border-zinc-900/30 border-t-zinc-900 rounded-full animate-spin" />Granting...</> : <><Shield className="w-4 h-4" />Grant Admin</>}
+                    className="flex items-center gap-2 px-5 py-3 bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-500/50 text-neutral-900 font-bold rounded-xl transition-colors text-sm whitespace-nowrap">
+                    {accessAction === 'granting' ? <><span className="w-4 h-4 border-2 border-neutral-900/30 border-t-neutral-900 rounded-full animate-spin" />Granting...</> : <><Shield className="w-4 h-4" />Grant Admin</>}
                   </button>
                 </div>
               </div>
@@ -1456,14 +1456,14 @@ export function AdminSettings() {
           </div>
 
           {/* Current Admin Users */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
             <h2 className="text-lg font-bold text-white mb-2">Manage Admin Users</h2>
             <p className="text-gray-400 text-sm mb-5">Revoke admin access from any user. You cannot revoke your own access.</p>
 
             {accessLoading ? (
-              <div className="space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-zinc-800 rounded-xl h-14 animate-pulse" />)}</div>
+              <div className="space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-neutral-800 rounded-xl h-14 animate-pulse" />)}</div>
             ) : adminUsers.length === 0 ? (
-              <div className="text-center py-10 bg-zinc-800 rounded-xl">
+              <div className="text-center py-10 bg-neutral-800 rounded-xl">
                 <Shield className="w-10 h-10 text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-400 text-sm">No admin users loaded yet.</p>
                 <p className="text-gray-500 text-xs mt-1">Grant admin access using the form above, or admins will appear here after they log in.</p>
@@ -1471,9 +1471,9 @@ export function AdminSettings() {
             ) : (
               <div className="space-y-3">
                 {adminUsers.map(admin => (
-                  <div key={admin.id} className="flex items-center justify-between gap-4 bg-zinc-800 rounded-xl p-4">
+                  <div key={admin.id} className="flex items-center justify-between gap-4 bg-neutral-800 rounded-xl p-4">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black flex-shrink-0 ${admin.role === 'admin' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-zinc-700 text-gray-400'}`}>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black flex-shrink-0 ${admin.role === 'admin' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-neutral-700 text-gray-400'}`}>
                         {(admin.email || '?').charAt(0).toUpperCase()}
                       </div>
                       <div className="min-w-0">
@@ -1489,7 +1489,7 @@ export function AdminSettings() {
                         </button>
                       )}
                       {admin.email === currentUser?.email && (
-                        <span className="text-xs text-gray-500 px-3 py-2 bg-zinc-700/50 rounded-lg">You</span>
+                        <span className="text-xs text-gray-500 px-3 py-2 bg-neutral-700/50 rounded-lg">You</span>
                       )}
                     </div>
                   </div>
@@ -1499,28 +1499,28 @@ export function AdminSettings() {
           </div>
 
           {/* How It Works */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
             <h2 className="text-lg font-bold text-white mb-4">How Admin Access Works</h2>
             <div className="space-y-4 text-sm">
               <div className="flex gap-3">
-                <div className="w-7 h-7 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold text-xs flex-shrink-0">1</div>
+                <div className="w-7 h-7 bg-red-600/20 rounded-lg flex items-center justify-center text-red-400 font-bold text-xs flex-shrink-0">1</div>
                 <div>
                   <p className="text-white font-semibold">User registers an account</p>
-                  <p className="text-gray-400">A user must first sign up at <Link to="/auth" className="text-blue-400 hover:text-blue-300">/auth</Link> to create an account.</p>
+                  <p className="text-gray-400">A user must first sign up at <Link to="/auth" className="text-red-400 hover:text-red-300">/auth</Link> to create an account.</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="w-7 h-7 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold text-xs flex-shrink-0">2</div>
+                <div className="w-7 h-7 bg-red-600/20 rounded-lg flex items-center justify-center text-red-400 font-bold text-xs flex-shrink-0">2</div>
                 <div>
                   <p className="text-white font-semibold">You grant admin access</p>
                   <p className="text-gray-400">Enter their email above and click "Grant Admin". This sets their role to admin in the system.</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="w-7 h-7 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold text-xs flex-shrink-0">3</div>
+                <div className="w-7 h-7 bg-red-600/20 rounded-lg flex items-center justify-center text-red-400 font-bold text-xs flex-shrink-0">3</div>
                 <div>
                   <p className="text-white font-semibold">They access the admin panel</p>
-                  <p className="text-gray-400">The user navigates to <Link to="/admin/auth" className="text-blue-400 hover:text-blue-300">/admin/auth</Link> and signs in with their credentials. They will be redirected to the admin dashboard.</p>
+                  <p className="text-gray-400">The user navigates to <Link to="/admin/auth" className="text-red-400 hover:text-red-300">/admin/auth</Link> and signs in with their credentials. They will be redirected to the admin dashboard.</p>
                 </div>
               </div>
               <div className="flex gap-3">
@@ -1534,7 +1534,7 @@ export function AdminSettings() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSave} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+        <form onSubmit={handleSave} className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
           {activeTab === 'general' && (
             <div className="space-y-4 max-w-lg">
               <h2 className="text-lg font-bold text-white mb-4">General Settings</h2>
@@ -1550,7 +1550,7 @@ export function AdminSettings() {
                   <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">{label}</label>
                   <input type="text" value={(settings as Record<string, string | boolean>)[key] as string}
                     onChange={e => setSettings(s => ({ ...s, [key]: e.target.value }))}
-                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors" />
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600 transition-colors" />
                 </div>
               ))}
             </div>
@@ -1565,7 +1565,7 @@ export function AdminSettings() {
                 { label: 'New Booking Alerts', key: 'new_booking_alert', desc: 'Get notified when a customer books a test ride' },
                 { label: 'New Inquiry Alerts', key: 'new_inquiry_alert', desc: 'Get notified when a customer sends an inquiry' },
               ].map(({ label, key, desc }) => (
-                <div key={key} className="flex items-center justify-between gap-4 py-3 border-b border-zinc-800 last:border-0">
+                <div key={key} className="flex items-center justify-between gap-4 py-3 border-b border-neutral-800 last:border-0">
                   <div>
                     <p className="text-white text-sm font-medium">{label}</p>
                     <p className="text-gray-500 text-xs">{desc}</p>
@@ -1573,7 +1573,7 @@ export function AdminSettings() {
                   <button type="button" onClick={() => setSettings(s => ({ ...s, [key]: !(s as Record<string, string | boolean>)[key] }))}
                     className="flex-shrink-0">
                     {(settings as Record<string, string | boolean>)[key] ? (
-                      <ToggleRight className="w-8 h-8 text-blue-400" />
+                      <ToggleRight className="w-8 h-8 text-red-400" />
                     ) : (
                       <ToggleLeft className="w-8 h-8 text-gray-600" />
                     )}
@@ -1589,19 +1589,19 @@ export function AdminSettings() {
               <div>
                 <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Meta Title</label>
                 <input type="text" value={settings.meta_title} onChange={e => setSettings(s => ({ ...s, meta_title: e.target.value }))}
-                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors" />
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600 transition-colors" />
               </div>
               <div>
                 <label className="block text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Meta Description</label>
                 <textarea value={settings.meta_description} onChange={e => setSettings(s => ({ ...s, meta_description: e.target.value }))} rows={3}
-                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl focus:outline-none focus:border-blue-500 transition-colors resize-none" />
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white text-sm rounded-xl focus:outline-none focus:border-red-600 transition-colors resize-none" />
               </div>
             </div>
           )}
 
-          <div className="mt-6 pt-4 border-t border-zinc-800">
+          <div className="mt-6 pt-4 border-t border-neutral-800">
             <button type="submit" disabled={saving}
-              className="flex items-center gap-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-400 disabled:bg-blue-500/50 text-white font-bold rounded-xl text-sm transition-colors">
+              className="flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-500 disabled:bg-red-600/50 text-white font-bold rounded-xl text-sm transition-colors">
               <Save className="w-4 h-4" /> {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Settings'}
             </button>
           </div>
