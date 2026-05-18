@@ -53,8 +53,8 @@ export default function BikeDetailPage() {
     setInquirySent(true);
   }
 
-  if (loading) return <div className="bg-neutral-950 min-h-screen pt-24 flex items-center justify-center"><div className="w-10 h-10 border-2 border-red-600 border-t-transparent rounded-full animate-spin" /></div>;
-  if (!bike) return <div className="bg-neutral-950 min-h-screen pt-24 flex items-center justify-center"><div className="text-center"><h2 className="text-2xl font-bold text-white mb-3">Bike Not Found</h2><Link to="/bikes" className="text-red-400 hover:text-red-300">Back to All Bikes</Link></div></div>;
+  if (loading) return <div className="bg-[#0a0a0a] min-h-screen pt-24 flex items-center justify-center"><div className="w-10 h-10 border-2 border-red-600 border-t-transparent rounded-full animate-spin" /></div>;
+  if (!bike) return <div className="bg-[#0a0a0a] min-h-screen pt-24 flex items-center justify-center"><div className="text-center"><h2 className="text-2xl font-bold text-white font-display mb-3">Bike Not Found</h2><Link to="/bikes" className="text-red-400 hover:text-red-300 font-display">Back to All Bikes</Link></div></div>;
 
   const specs = [
     { label: 'Engine', value: bike.engine_size, icon: Zap },
@@ -68,28 +68,30 @@ export default function BikeDetailPage() {
   ].filter(s => s.value);
 
   return (
-    <main className="bg-neutral-950 min-h-screen pt-24 pb-20">
+    <main className="bg-[#0a0a0a] min-h-screen pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-8 text-sm">
-          <Link to="/bikes" className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"><ArrowLeft className="w-4 h-4" /> All Bikes</Link>
-          <span className="text-neutral-700">/</span><span className="text-gray-500">{bike.brand?.name}</span>
-          <span className="text-neutral-700">/</span><span className="text-white font-medium truncate">{bike.name}</span>
+          <Link to="/bikes" className="flex items-center gap-1 text-gray-500 hover:text-white transition-colors"><ArrowLeft className="w-4 h-4" /> All Bikes</Link>
+          <span className="text-white/20">/</span><span className="text-gray-500">{bike.brand?.name}</span>
+          <span className="text-white/20">/</span><span className="text-white font-medium truncate">{bike.name}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+          {/* Image Gallery */}
           <div className="lg:col-span-3">
-            <div className="relative bg-neutral-900 rounded-2xl overflow-hidden border border-neutral-800 aspect-[4/3] mb-3">
+            <div className="relative bg-[#111] border border-white/10 rounded-2xl overflow-hidden aspect-[4/3] mb-3">
               <img src={allImages[activeImg]} alt={bike.name} className="w-full h-full object-cover" />
               {allImages.length > 1 && (<>
-                <button onClick={() => setActiveImg(i => (i - 1 + allImages.length) % allImages.length)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70"><ChevronLeft className="w-5 h-5" /></button>
-                <button onClick={() => setActiveImg(i => (i + 1) % allImages.length)} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70"><ChevronRight className="w-5 h-5" /></button>
+                <button onClick={() => setActiveImg(i => (i - 1 + allImages.length) % allImages.length)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors"><ChevronLeft className="w-5 h-5" /></button>
+                <button onClick={() => setActiveImg(i => (i + 1) % allImages.length)} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors"><ChevronRight className="w-5 h-5" /></button>
               </>)}
-              <div className="absolute bottom-3 right-3 px-2.5 py-1 bg-black/50 backdrop-blur-sm rounded-full text-xs text-white">{activeImg + 1} / {allImages.length}</div>
+              <div className="absolute bottom-3 right-3 px-2.5 py-1 bg-black/50 backdrop-blur-sm rounded-full text-xs text-white font-display">{activeImg + 1} / {allImages.length}</div>
             </div>
             {allImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {allImages.map((img, i) => (
-                  <button key={i} onClick={() => setActiveImg(i)} className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === activeImg ? 'border-red-600' : 'border-neutral-700 hover:border-neutral-500'}`}>
+                  <button key={i} onClick={() => setActiveImg(i)} className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === activeImg ? 'border-red-500' : 'border-white/10 hover:border-white/20'}`}>
                     <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
@@ -97,103 +99,107 @@ export default function BikeDetailPage() {
             )}
           </div>
 
+          {/* Bike Info */}
           <div className="lg:col-span-2">
             <div className="flex items-start justify-between gap-3 mb-2">
               <div>
-                <p className="text-red-400 font-semibold text-sm mb-1">{bike.brand?.name} • {bike.model_year}</p>
-                <h1 className="text-3xl font-black text-white leading-tight">{bike.name}</h1>
+                <p className="text-red-400 font-display font-bold text-xs tracking-[0.15em] uppercase mb-1">{bike.brand?.name} &bull; {bike.model_year}</p>
+                <h1 className="text-3xl font-black text-white font-display leading-tight">{bike.name}</h1>
               </div>
               <div className="flex gap-2">
-                <button onClick={toggleWishlist} className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all ${wishlisted ? 'bg-red-500 border-red-500 text-white' : 'border-neutral-700 text-gray-400 hover:border-red-500 hover:text-red-400'}`}>
+                <button onClick={toggleWishlist} className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all ${wishlisted ? 'bg-red-500 border-red-500 text-white' : 'border-white/10 text-gray-400 hover:border-red-500 hover:text-red-400'}`}>
                   <Heart className={`w-5 h-5 ${wishlisted ? 'fill-current' : ''}`} />
                 </button>
-                <button onClick={() => navigator.share?.({ title: bike.name, url: window.location.href })} className="w-10 h-10 rounded-xl flex items-center justify-center border border-neutral-700 text-gray-400 hover:border-neutral-500 hover:text-white transition-all">
+                <button onClick={() => navigator.share?.({ title: bike.name, url: window.location.href })} className="w-10 h-10 rounded-xl flex items-center justify-center border border-white/10 text-gray-400 hover:border-white/20 hover:text-white transition-all">
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>
             </div>
             <div className="flex items-center gap-3 mb-5">
-              <span className={`px-3 py-1 text-xs font-bold rounded-full border capitalize ${bike.condition === 'new' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'}`}>{bike.condition}</span>
-              <span className="px-3 py-1 text-xs font-bold rounded-full bg-red-600/20 text-red-400 border border-red-600/30 capitalize">{bike.bike_type}</span>
-              {bike.status !== 'available' && <span className="px-3 py-1 text-xs font-bold rounded-full bg-red-500/20 text-red-400 border border-red-500/30 capitalize">{bike.status}</span>}
+              <span className={`px-3 py-1 text-xs font-bold rounded-full border capitalize font-display ${bike.condition === 'new' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'}`}>{bike.condition}</span>
+              <span className="px-3 py-1 text-xs font-bold rounded-full bg-red-500/20 text-red-400 border border-red-500/30 capitalize font-display">{bike.bike_type}</span>
+              {bike.status !== 'available' && <span className="px-3 py-1 text-xs font-bold rounded-full bg-red-500/20 text-red-400 border border-red-500/30 capitalize font-display">{bike.status}</span>}
             </div>
             <div className="mb-6">
-              <p className="text-4xl font-black text-white mb-1">KES {bike.price.toLocaleString()}</p>
-              {bike.financing_available && <p className="text-sm text-green-400">Financing available — contact us for payment plans</p>}
+              <p className="font-display font-black text-red-400 text-4xl mb-1">KES {bike.price.toLocaleString()}</p>
+              {bike.financing_available && <p className="text-sm text-green-400 font-display">Financing available &mdash; contact us for payment plans</p>}
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">{bike.description}</p>
             {specs.length > 0 && (
               <div className="grid grid-cols-2 gap-2 mb-6">
                 {specs.map(({ label, value }) => (
-                  <div key={label} className="bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2">
-                    <p className="text-gray-500 text-xs mb-0.5">{label}</p>
+                  <div key={label} className="bg-[#0a0a0a] border border-white/5 rounded-xl px-3 py-2">
+                    <p className="text-gray-500 text-xs font-display mb-0.5">{label}</p>
                     <p className="text-white text-sm font-semibold capitalize">{value}</p>
                   </div>
                 ))}
               </div>
             )}
             <div className="flex flex-col gap-3">
-              <Link to={`/booking?bike=${bike.id}`} className="flex items-center justify-center gap-2 px-6 py-3.5 bg-red-600 hover:bg-red-400 text-white font-bold rounded-xl transition-all hover:shadow-lg hover:shadow-red-600/30"><Calendar className="w-5 h-5" /> Book Test Ride</Link>
-              <a href={`https://wa.me/254700000000?text=Hi%2C%20I%20am%20interested%20in%20the%20${encodeURIComponent(bike.name)}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-6 py-3.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp Inquiry</a>
-              <button onClick={() => document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center justify-center gap-2 px-6 py-3.5 border border-neutral-700 hover:border-red-600/50 text-gray-300 hover:text-white font-bold rounded-xl transition-all"><ExternalLink className="w-5 h-5" /> Send Inquiry</button>
+              <Link to={`/booking?bike=${bike.id}`} className="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 font-display"><Calendar className="w-5 h-5" /> Book Test Ride</Link>
+              <a href={`https://wa.me/254700000000?text=Hi%2C%20I%20am%20interested%20in%20the%20${encodeURIComponent(bike.name)}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-6 py-3.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-colors font-display"><MessageCircle className="w-5 h-5" /> WhatsApp Inquiry</a>
+              <button onClick={() => document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' })} className="btn-outline flex items-center justify-center gap-2 px-6 py-3.5 font-display"><ExternalLink className="w-5 h-5" /> Send Inquiry</button>
             </div>
           </div>
         </div>
 
+        {/* Specs & Inquiry */}
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {specs.length > 0 && (
-              <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 mb-6">
-                <h2 className="text-xl font-black text-white mb-5">Specifications</h2>
-                <div className="grid grid-cols-2 divide-y divide-neutral-800">
+              <div className="bg-[#111] border border-white/10 rounded-2xl p-6 mb-6">
+                <h2 className="text-xl font-black text-white font-display mb-5">Specifications</h2>
+                <div className="grid grid-cols-2 divide-y divide-white/5">
                   {specs.map(({ label, value }, i) => (
                     <div key={label} className={`py-3 ${i % 2 === 0 ? 'pr-4' : 'pl-4'} flex justify-between gap-4`}>
-                      <span className="text-gray-500 text-sm">{label}</span>
+                      <span className="text-gray-500 text-sm font-display">{label}</span>
                       <span className="text-white text-sm font-semibold capitalize text-right">{value}</span>
                     </div>
                   ))}
-                  <div className="py-3 pr-4 flex justify-between gap-4"><span className="text-gray-500 text-sm">Year</span><span className="text-white text-sm font-semibold">{bike.model_year}</span></div>
-                  <div className="py-3 pl-4 flex justify-between gap-4"><span className="text-gray-500 text-sm">Color</span><span className="text-white text-sm font-semibold">{bike.color}</span></div>
-                  {bike.condition !== 'new' && <div className="py-3 pr-4 flex justify-between gap-4"><span className="text-gray-500 text-sm">Mileage</span><span className="text-white text-sm font-semibold">{bike.mileage.toLocaleString()} km</span></div>}
+                  <div className="py-3 pr-4 flex justify-between gap-4"><span className="text-gray-500 text-sm font-display">Year</span><span className="text-white text-sm font-semibold">{bike.model_year}</span></div>
+                  <div className="py-3 pl-4 flex justify-between gap-4"><span className="text-gray-500 text-sm font-display">Color</span><span className="text-white text-sm font-semibold">{bike.color}</span></div>
+                  {bike.condition !== 'new' && <div className="py-3 pr-4 flex justify-between gap-4"><span className="text-gray-500 text-sm font-display">Mileage</span><span className="text-white text-sm font-semibold">{bike.mileage.toLocaleString()} km</span></div>}
                 </div>
               </div>
             )}
             {bike.seller_notes && (
-              <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
-                <h2 className="text-xl font-black text-white mb-3">Seller Notes</h2>
+              <div className="bg-[#111] border border-white/10 rounded-2xl p-6">
+                <h2 className="text-xl font-black text-white font-display mb-3">Seller Notes</h2>
                 <p className="text-gray-400 text-sm leading-relaxed">{bike.seller_notes}</p>
               </div>
             )}
           </div>
 
+          {/* Inquiry Form */}
           <div id="inquiry-form">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 sticky top-28">
-              <h2 className="text-xl font-black text-white mb-5">Send Inquiry</h2>
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-6 sticky top-28">
+              <h2 className="text-xl font-black text-white font-display mb-5">Send Inquiry</h2>
               {inquirySent ? (
                 <div className="text-center py-6">
                   <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3"><span className="text-emerald-400 text-xl">&#10003;</span></div>
-                  <p className="text-white font-semibold">Inquiry Sent!</p><p className="text-gray-400 text-sm mt-1">We'll get back to you shortly.</p>
+                  <p className="text-white font-semibold font-display">Inquiry Sent!</p><p className="text-gray-400 text-sm mt-1">We'll get back to you shortly.</p>
                 </div>
               ) : (
                 <form onSubmit={submitInquiry} className="space-y-3">
                   <input type="text" required placeholder="Full Name" value={inquiryForm.name} onChange={e => setInquiryForm(f => ({ ...f, name: e.target.value }))}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600" />
+                    className="input-premium" />
                   <input type="tel" required placeholder="Phone Number" value={inquiryForm.phone} onChange={e => setInquiryForm(f => ({ ...f, phone: e.target.value }))}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600" />
+                    className="input-premium" />
                   <input type="email" required placeholder="Email Address" value={inquiryForm.email} onChange={e => setInquiryForm(f => ({ ...f, email: e.target.value }))}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600" />
+                    className="input-premium" />
                   <textarea required placeholder="Your message..." value={inquiryForm.message} rows={4} onChange={e => setInquiryForm(f => ({ ...f, message: e.target.value }))}
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600 resize-none" />
-                  <button type="submit" className="w-full py-3 bg-red-600 hover:bg-red-400 text-white font-bold rounded-xl transition-colors text-sm">Send Inquiry</button>
+                    className="input-premium resize-none" />
+                  <button type="submit" className="btn-primary w-full py-3 font-display text-sm">Send Inquiry</button>
                 </form>
               )}
             </div>
           </div>
         </div>
 
+        {/* Similar Bikes */}
         {similarBikes.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-2xl font-black text-white mb-6">Similar Bikes</h2>
+            <h2 className="font-display font-black text-2xl text-white mb-6">Similar Bikes</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {similarBikes.map(b => <BikeCard key={b.id} bike={b} />)}
             </div>

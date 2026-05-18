@@ -32,102 +32,108 @@ export default function Header() {
   }
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-neutral-950/95 backdrop-blur-md shadow-lg shadow-black/40' : 'bg-transparent'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-[#0a0a0a]/95 backdrop-blur-xl shadow-[0_2px_20px_rgba(0,0,0,0.8)] border-b border-white/5' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-colors">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative w-11 h-11 bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center group-hover:from-red-500 group-hover:to-red-700 transition-all duration-300 shadow-lg shadow-red-600/20">
               <Bike className="w-6 h-6 text-white" />
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
             </div>
             <div>
-              <span className="block text-white font-black text-lg leading-tight tracking-tight">NAIROBI</span>
-              <span className="block text-red-400 font-bold text-xs tracking-[0.2em] uppercase leading-tight">POWERBIKES</span>
+              <span className="block text-white font-display font-black text-lg leading-tight tracking-wider">NAIROBI</span>
+              <span className="block text-red-500 font-display font-bold text-[10px] tracking-[0.3em] leading-tight">POWERBIKES</span>
             </div>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map(link => (
               <NavLink key={link.to} to={link.to} end={link.to === '/'}
-                className={({ isActive }) => `px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? 'text-red-400' : 'text-gray-300 hover:text-white'}`}>
+                className={({ isActive }) => `px-4 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 ${isActive ? 'text-red-400 bg-red-500/10' : 'text-gray-300 hover:text-white hover:bg-white/5'}`}>
                 {link.label}
               </NavLink>
             ))}
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/booking" className="px-4 py-2 text-sm font-semibold text-red-400 border border-red-600/50 rounded-lg hover:bg-red-600/10 transition-all">
+            <Link to="/booking" className="btn-outline px-5 py-2.5 text-sm font-display font-bold tracking-wider uppercase text-red-400 border-red-500/30 hover:bg-red-500/10 hover:border-red-500/50">
               Book Test Ride
             </Link>
             {user ? (
               <div className="relative">
                 <button onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors">
-                  <div className="w-7 h-7 bg-red-600 rounded-full flex items-center justify-center">
+                  className="flex items-center gap-2 px-3 py-2 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300">
+                  <div className="w-7 h-7 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center shadow-md shadow-red-500/20">
                     <User className="w-4 h-4 text-white" />
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-neutral-900 border border-neutral-700 rounded-xl shadow-2xl overflow-hidden">
+                  <div className="absolute right-0 mt-3 w-56 bg-[#111] border border-white/10 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden backdrop-blur-xl">
+                    <div className="p-3 border-b border-white/5">
+                      <p className="text-white text-sm font-semibold truncate">{user.email}</p>
+                    </div>
                     {isAdmin && (
                       <Link to="/admin" onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-neutral-800 transition-colors border-b border-neutral-700">
+                        className="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 transition-colors font-semibold">
                         <Settings className="w-4 h-4" /> Admin Dashboard
                       </Link>
                     )}
                     <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-neutral-800 transition-colors">
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-white/5 transition-colors">
                       <User className="w-4 h-4" /> My Dashboard
                     </Link>
                     <Link to="/dashboard/wishlist" onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-neutral-800 transition-colors">
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-white/5 transition-colors">
                       <Heart className="w-4 h-4" /> Saved Bikes
                     </Link>
-                    <button onClick={handleSignOut}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-neutral-800 transition-colors border-t border-neutral-700">
-                      <LogOut className="w-4 h-4" /> Sign Out
-                    </button>
+                    <div className="border-t border-white/5">
+                      <button onClick={handleSignOut}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 transition-colors font-semibold">
+                        <LogOut className="w-4 h-4" /> Sign Out
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
             ) : (
-              <Link to="/auth" className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-500 transition-colors">
+              <Link to="/auth" className="btn-primary px-5 py-2.5 text-sm font-display font-bold tracking-wider uppercase">
                 Sign In
               </Link>
             )}
           </div>
 
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 text-gray-300 hover:text-white">
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 text-gray-300 hover:text-white transition-colors">
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-neutral-950 border-t border-neutral-800">
+        <div className="lg:hidden bg-[#0a0a0a] border-t border-white/5">
           <div className="px-4 pt-2 pb-4 space-y-1">
             {navLinks.map(link => (
               <NavLink key={link.to} to={link.to} end={link.to === '/'} onClick={() => setMobileOpen(false)}
-                className={({ isActive }) => `block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive ? 'text-red-400 bg-red-600/10' : 'text-gray-300 hover:text-white hover:bg-neutral-800'}`}>
+                className={({ isActive }) => `block px-4 py-3 rounded-xl text-sm font-semibold tracking-wide transition-all ${isActive ? 'text-red-400 bg-red-500/10' : 'text-gray-300 hover:text-white hover:bg-white/5'}`}>
                 {link.label}
               </NavLink>
             ))}
-            <div className="pt-3 flex flex-col gap-2 border-t border-neutral-800">
+            <div className="pt-3 flex flex-col gap-2 border-t border-white/5">
               <Link to="/booking" onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 text-center text-sm font-semibold text-red-400 border border-red-600/50 rounded-lg">Book Test Ride</Link>
+                className="px-4 py-3 text-center text-sm font-display font-bold tracking-wider uppercase text-red-400 border border-red-500/30 rounded-xl hover:bg-red-500/10">Book Test Ride</Link>
               {user ? (
                 <>
                   <Link to="/dashboard" onClick={() => setMobileOpen(false)}
-                    className="px-4 py-3 text-center text-sm font-semibold bg-neutral-800 text-white rounded-lg">My Dashboard</Link>
+                    className="px-4 py-3 text-center text-sm font-semibold bg-white/5 text-white rounded-xl">My Dashboard</Link>
                   {isAdmin && (
                     <Link to="/admin" onClick={() => setMobileOpen(false)}
-                      className="px-4 py-3 text-center text-sm font-semibold bg-red-600/10 text-red-400 rounded-lg">Admin Dashboard</Link>
+                      className="px-4 py-3 text-center text-sm font-semibold bg-red-500/10 text-red-400 rounded-xl">Admin Dashboard</Link>
                   )}
-                  <button onClick={handleSignOut} className="px-4 py-3 text-center text-sm font-semibold text-red-400 bg-red-600/10 rounded-lg">Sign Out</button>
+                  <button onClick={handleSignOut} className="px-4 py-3 text-center text-sm font-semibold text-red-400 bg-red-500/10 rounded-xl">Sign Out</button>
                 </>
               ) : (
                 <Link to="/auth" onClick={() => setMobileOpen(false)}
-                  className="px-4 py-3 text-center text-sm font-semibold bg-red-600 text-white rounded-lg">Sign In</Link>
+                  className="btn-primary px-4 py-3 text-center text-sm font-display font-bold tracking-wider uppercase">Sign In</Link>
               )}
             </div>
           </div>
