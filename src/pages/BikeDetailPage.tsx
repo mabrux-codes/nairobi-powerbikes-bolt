@@ -53,8 +53,8 @@ export default function BikeDetailPage() {
     setInquirySent(true);
   }
 
-  if (loading) return <div className="bg-zinc-950 min-h-screen pt-24 flex items-center justify-center"><div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>;
-  if (!bike) return <div className="bg-zinc-950 min-h-screen pt-24 flex items-center justify-center"><div className="text-center"><h2 className="text-2xl font-bold text-white mb-3">Bike Not Found</h2><Link to="/bikes" className="text-blue-400 hover:text-blue-300">Back to All Bikes</Link></div></div>;
+  if (loading) return <div className="bg-neutral-950 min-h-screen pt-24 flex items-center justify-center"><div className="w-10 h-10 border-2 border-red-600 border-t-transparent rounded-full animate-spin" /></div>;
+  if (!bike) return <div className="bg-neutral-950 min-h-screen pt-24 flex items-center justify-center"><div className="text-center"><h2 className="text-2xl font-bold text-white mb-3">Bike Not Found</h2><Link to="/bikes" className="text-red-400 hover:text-red-300">Back to All Bikes</Link></div></div>;
 
   const specs = [
     { label: 'Engine', value: bike.engine_size, icon: Zap },
@@ -68,17 +68,17 @@ export default function BikeDetailPage() {
   ].filter(s => s.value);
 
   return (
-    <main className="bg-zinc-950 min-h-screen pt-24 pb-20">
+    <main className="bg-neutral-950 min-h-screen pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 mb-8 text-sm">
           <Link to="/bikes" className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"><ArrowLeft className="w-4 h-4" /> All Bikes</Link>
-          <span className="text-zinc-700">/</span><span className="text-gray-500">{bike.brand?.name}</span>
-          <span className="text-zinc-700">/</span><span className="text-white font-medium truncate">{bike.name}</span>
+          <span className="text-neutral-700">/</span><span className="text-gray-500">{bike.brand?.name}</span>
+          <span className="text-neutral-700">/</span><span className="text-white font-medium truncate">{bike.name}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-3">
-            <div className="relative bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 aspect-[4/3] mb-3">
+            <div className="relative bg-neutral-900 rounded-2xl overflow-hidden border border-neutral-800 aspect-[4/3] mb-3">
               <img src={allImages[activeImg]} alt={bike.name} className="w-full h-full object-cover" />
               {allImages.length > 1 && (<>
                 <button onClick={() => setActiveImg(i => (i - 1 + allImages.length) % allImages.length)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70"><ChevronLeft className="w-5 h-5" /></button>
@@ -89,7 +89,7 @@ export default function BikeDetailPage() {
             {allImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {allImages.map((img, i) => (
-                  <button key={i} onClick={() => setActiveImg(i)} className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === activeImg ? 'border-blue-500' : 'border-zinc-700 hover:border-zinc-500'}`}>
+                  <button key={i} onClick={() => setActiveImg(i)} className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === activeImg ? 'border-red-600' : 'border-neutral-700 hover:border-neutral-500'}`}>
                     <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
@@ -100,21 +100,21 @@ export default function BikeDetailPage() {
           <div className="lg:col-span-2">
             <div className="flex items-start justify-between gap-3 mb-2">
               <div>
-                <p className="text-blue-400 font-semibold text-sm mb-1">{bike.brand?.name} • {bike.model_year}</p>
+                <p className="text-red-400 font-semibold text-sm mb-1">{bike.brand?.name} • {bike.model_year}</p>
                 <h1 className="text-3xl font-black text-white leading-tight">{bike.name}</h1>
               </div>
               <div className="flex gap-2">
-                <button onClick={toggleWishlist} className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all ${wishlisted ? 'bg-red-500 border-red-500 text-white' : 'border-zinc-700 text-gray-400 hover:border-red-500 hover:text-red-400'}`}>
+                <button onClick={toggleWishlist} className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all ${wishlisted ? 'bg-red-500 border-red-500 text-white' : 'border-neutral-700 text-gray-400 hover:border-red-500 hover:text-red-400'}`}>
                   <Heart className={`w-5 h-5 ${wishlisted ? 'fill-current' : ''}`} />
                 </button>
-                <button onClick={() => navigator.share?.({ title: bike.name, url: window.location.href })} className="w-10 h-10 rounded-xl flex items-center justify-center border border-zinc-700 text-gray-400 hover:border-zinc-500 hover:text-white transition-all">
+                <button onClick={() => navigator.share?.({ title: bike.name, url: window.location.href })} className="w-10 h-10 rounded-xl flex items-center justify-center border border-neutral-700 text-gray-400 hover:border-neutral-500 hover:text-white transition-all">
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>
             </div>
             <div className="flex items-center gap-3 mb-5">
               <span className={`px-3 py-1 text-xs font-bold rounded-full border capitalize ${bike.condition === 'new' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'}`}>{bike.condition}</span>
-              <span className="px-3 py-1 text-xs font-bold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 capitalize">{bike.bike_type}</span>
+              <span className="px-3 py-1 text-xs font-bold rounded-full bg-red-600/20 text-red-400 border border-red-600/30 capitalize">{bike.bike_type}</span>
               {bike.status !== 'available' && <span className="px-3 py-1 text-xs font-bold rounded-full bg-red-500/20 text-red-400 border border-red-500/30 capitalize">{bike.status}</span>}
             </div>
             <div className="mb-6">
@@ -125,7 +125,7 @@ export default function BikeDetailPage() {
             {specs.length > 0 && (
               <div className="grid grid-cols-2 gap-2 mb-6">
                 {specs.map(({ label, value }) => (
-                  <div key={label} className="bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2">
+                  <div key={label} className="bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2">
                     <p className="text-gray-500 text-xs mb-0.5">{label}</p>
                     <p className="text-white text-sm font-semibold capitalize">{value}</p>
                   </div>
@@ -133,9 +133,9 @@ export default function BikeDetailPage() {
               </div>
             )}
             <div className="flex flex-col gap-3">
-              <Link to={`/booking?bike=${bike.id}`} className="flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-xl transition-all hover:shadow-lg hover:shadow-blue-500/30"><Calendar className="w-5 h-5" /> Book Test Ride</Link>
+              <Link to={`/booking?bike=${bike.id}`} className="flex items-center justify-center gap-2 px-6 py-3.5 bg-red-600 hover:bg-red-400 text-white font-bold rounded-xl transition-all hover:shadow-lg hover:shadow-red-600/30"><Calendar className="w-5 h-5" /> Book Test Ride</Link>
               <a href={`https://wa.me/254700000000?text=Hi%2C%20I%20am%20interested%20in%20the%20${encodeURIComponent(bike.name)}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-6 py-3.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp Inquiry</a>
-              <button onClick={() => document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center justify-center gap-2 px-6 py-3.5 border border-zinc-700 hover:border-blue-500/50 text-gray-300 hover:text-white font-bold rounded-xl transition-all"><ExternalLink className="w-5 h-5" /> Send Inquiry</button>
+              <button onClick={() => document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center justify-center gap-2 px-6 py-3.5 border border-neutral-700 hover:border-red-600/50 text-gray-300 hover:text-white font-bold rounded-xl transition-all"><ExternalLink className="w-5 h-5" /> Send Inquiry</button>
             </div>
           </div>
         </div>
@@ -143,9 +143,9 @@ export default function BikeDetailPage() {
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {specs.length > 0 && (
-              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 mb-6">
+              <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 mb-6">
                 <h2 className="text-xl font-black text-white mb-5">Specifications</h2>
-                <div className="grid grid-cols-2 divide-y divide-zinc-800">
+                <div className="grid grid-cols-2 divide-y divide-neutral-800">
                   {specs.map(({ label, value }, i) => (
                     <div key={label} className={`py-3 ${i % 2 === 0 ? 'pr-4' : 'pl-4'} flex justify-between gap-4`}>
                       <span className="text-gray-500 text-sm">{label}</span>
@@ -159,7 +159,7 @@ export default function BikeDetailPage() {
               </div>
             )}
             {bike.seller_notes && (
-              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+              <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
                 <h2 className="text-xl font-black text-white mb-3">Seller Notes</h2>
                 <p className="text-gray-400 text-sm leading-relaxed">{bike.seller_notes}</p>
               </div>
@@ -167,7 +167,7 @@ export default function BikeDetailPage() {
           </div>
 
           <div id="inquiry-form">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sticky top-28">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 sticky top-28">
               <h2 className="text-xl font-black text-white mb-5">Send Inquiry</h2>
               {inquirySent ? (
                 <div className="text-center py-6">
@@ -177,14 +177,14 @@ export default function BikeDetailPage() {
               ) : (
                 <form onSubmit={submitInquiry} className="space-y-3">
                   <input type="text" required placeholder="Full Name" value={inquiryForm.name} onChange={e => setInquiryForm(f => ({ ...f, name: e.target.value }))}
-                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-blue-500" />
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600" />
                   <input type="tel" required placeholder="Phone Number" value={inquiryForm.phone} onChange={e => setInquiryForm(f => ({ ...f, phone: e.target.value }))}
-                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-blue-500" />
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600" />
                   <input type="email" required placeholder="Email Address" value={inquiryForm.email} onChange={e => setInquiryForm(f => ({ ...f, email: e.target.value }))}
-                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-blue-500" />
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600" />
                   <textarea required placeholder="Your message..." value={inquiryForm.message} rows={4} onChange={e => setInquiryForm(f => ({ ...f, message: e.target.value }))}
-                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-blue-500 resize-none" />
-                  <button type="submit" className="w-full py-3 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-xl transition-colors text-sm">Send Inquiry</button>
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 text-white placeholder-gray-500 text-sm rounded-xl focus:outline-none focus:border-red-600 resize-none" />
+                  <button type="submit" className="w-full py-3 bg-red-600 hover:bg-red-400 text-white font-bold rounded-xl transition-colors text-sm">Send Inquiry</button>
                 </form>
               )}
             </div>

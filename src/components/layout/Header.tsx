@@ -32,66 +32,66 @@ export default function Header() {
   }
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-zinc-950/95 backdrop-blur-md shadow-lg shadow-black/40' : 'bg-transparent'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-neutral-950/95 backdrop-blur-md shadow-lg shadow-black/40' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center group-hover:bg-blue-400 transition-colors">
+            <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-colors">
               <Bike className="w-6 h-6 text-white" />
             </div>
             <div>
               <span className="block text-white font-black text-lg leading-tight tracking-tight">NAIROBI</span>
-              <span className="block text-blue-400 font-bold text-xs tracking-[0.2em] uppercase leading-tight">POWERBIKES</span>
+              <span className="block text-red-400 font-bold text-xs tracking-[0.2em] uppercase leading-tight">POWERBIKES</span>
             </div>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map(link => (
               <NavLink key={link.to} to={link.to} end={link.to === '/'}
-                className={({ isActive }) => `px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? 'text-blue-400' : 'text-gray-300 hover:text-white'}`}>
+                className={({ isActive }) => `px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? 'text-red-400' : 'text-gray-300 hover:text-white'}`}>
                 {link.label}
               </NavLink>
             ))}
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/booking" className="px-4 py-2 text-sm font-semibold text-blue-400 border border-blue-500/50 rounded-lg hover:bg-blue-500/10 transition-all">
+            <Link to="/booking" className="px-4 py-2 text-sm font-semibold text-red-400 border border-red-600/50 rounded-lg hover:bg-red-600/10 transition-all">
               Book Test Ride
             </Link>
             {user ? (
               <div className="relative">
                 <button onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors">
-                  <div className="w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center">
+                  className="flex items-center gap-2 px-3 py-2 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors">
+                  <div className="w-7 h-7 bg-red-600 rounded-full flex items-center justify-center">
                     <User className="w-4 h-4 text-white" />
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl overflow-hidden">
+                  <div className="absolute right-0 mt-2 w-52 bg-neutral-900 border border-neutral-700 rounded-xl shadow-2xl overflow-hidden">
                     {isAdmin && (
                       <Link to="/admin" onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 text-sm text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-zinc-700">
+                        className="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-neutral-800 transition-colors border-b border-neutral-700">
                         <Settings className="w-4 h-4" /> Admin Dashboard
                       </Link>
                     )}
                     <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-zinc-800 transition-colors">
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-neutral-800 transition-colors">
                       <User className="w-4 h-4" /> My Dashboard
                     </Link>
                     <Link to="/dashboard/wishlist" onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-zinc-800 transition-colors">
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-neutral-800 transition-colors">
                       <Heart className="w-4 h-4" /> Saved Bikes
                     </Link>
                     <button onClick={handleSignOut}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-zinc-800 transition-colors border-t border-zinc-700">
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-neutral-800 transition-colors border-t border-neutral-700">
                       <LogOut className="w-4 h-4" /> Sign Out
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              <Link to="/auth" className="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-400 transition-colors">
+              <Link to="/auth" className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-500 transition-colors">
                 Sign In
               </Link>
             )}
@@ -104,30 +104,30 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-zinc-950 border-t border-zinc-800">
+        <div className="lg:hidden bg-neutral-950 border-t border-neutral-800">
           <div className="px-4 pt-2 pb-4 space-y-1">
             {navLinks.map(link => (
               <NavLink key={link.to} to={link.to} end={link.to === '/'} onClick={() => setMobileOpen(false)}
-                className={({ isActive }) => `block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive ? 'text-blue-400 bg-blue-500/10' : 'text-gray-300 hover:text-white hover:bg-zinc-800'}`}>
+                className={({ isActive }) => `block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive ? 'text-red-400 bg-red-600/10' : 'text-gray-300 hover:text-white hover:bg-neutral-800'}`}>
                 {link.label}
               </NavLink>
             ))}
-            <div className="pt-3 flex flex-col gap-2 border-t border-zinc-800">
+            <div className="pt-3 flex flex-col gap-2 border-t border-neutral-800">
               <Link to="/booking" onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 text-center text-sm font-semibold text-blue-400 border border-blue-500/50 rounded-lg">Book Test Ride</Link>
+                className="px-4 py-3 text-center text-sm font-semibold text-red-400 border border-red-600/50 rounded-lg">Book Test Ride</Link>
               {user ? (
                 <>
                   <Link to="/dashboard" onClick={() => setMobileOpen(false)}
-                    className="px-4 py-3 text-center text-sm font-semibold bg-zinc-800 text-white rounded-lg">My Dashboard</Link>
+                    className="px-4 py-3 text-center text-sm font-semibold bg-neutral-800 text-white rounded-lg">My Dashboard</Link>
                   {isAdmin && (
                     <Link to="/admin" onClick={() => setMobileOpen(false)}
-                      className="px-4 py-3 text-center text-sm font-semibold bg-yellow-500/10 text-yellow-400 rounded-lg">Admin Dashboard</Link>
+                      className="px-4 py-3 text-center text-sm font-semibold bg-red-600/10 text-red-400 rounded-lg">Admin Dashboard</Link>
                   )}
-                  <button onClick={handleSignOut} className="px-4 py-3 text-center text-sm font-semibold text-red-400 bg-red-500/10 rounded-lg">Sign Out</button>
+                  <button onClick={handleSignOut} className="px-4 py-3 text-center text-sm font-semibold text-red-400 bg-red-600/10 rounded-lg">Sign Out</button>
                 </>
               ) : (
                 <Link to="/auth" onClick={() => setMobileOpen(false)}
-                  className="px-4 py-3 text-center text-sm font-semibold bg-blue-500 text-white rounded-lg">Sign In</Link>
+                  className="px-4 py-3 text-center text-sm font-semibold bg-red-600 text-white rounded-lg">Sign In</Link>
               )}
             </div>
           </div>
